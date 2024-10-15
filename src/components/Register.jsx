@@ -34,7 +34,7 @@ export default function Register({navigation}) {
   };
 
   return (
-    <View className="flex-1 justify-center items-center bg-gray-100">
+    <View className="justify-center items-center bg-gray-100">
       <View className="p-8 rounded-lg shadow-lg w-96">
         <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Create Account
@@ -106,26 +106,6 @@ export default function Register({navigation}) {
                   Sign-up
                 </Text>
               </TouchableOpacity>
-
-              {/* Stack Toggle */}
-              <View className="flex-row border-2 border-gray-700 mt-12 rounded-full">
-                <TouchableOpacity
-                  className="flex-1 bg-gray-800 py-3 rounded-full"
-                  onPress={() => navigation.navigate('Login')}
-                  disabled={isSubmitting}>
-                  <Text className="text-gray-200 text-center font-semibold text-lg">
-                    Sign-up
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  className="flex-1 py-3"
-                  onPress={() => navigation.navigate('Login')}>
-                  <Text className="text-lg font-semibold text-center">
-                    Login
-                  </Text>
-                </TouchableOpacity>
-              </View>
             </>
           )}
         </Formik>
