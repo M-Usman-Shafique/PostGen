@@ -34,7 +34,7 @@ export default function Login({navigation}) {
   };
 
   return (
-    <View className="justify-center items-center bg-gray-100">
+    <View className="">
       <View className="p-8 rounded-lg shadow-lg w-96">
         <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Login

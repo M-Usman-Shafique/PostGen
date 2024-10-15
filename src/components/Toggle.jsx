@@ -31,7 +31,7 @@ export default function Toggle() {
   });
 
   return (
-    <View className="flex-1 justify-center items-center bg-gray-100">
+    <View className="flex-1 justify-center items-center bg-gray-200">
       {/* Form Section */}
       <Animated.View
         style={{
@@ -43,7 +43,7 @@ export default function Toggle() {
       </Animated.View>
 
       {/* Toggle Switch */}
-      <View className="relative flex-row mx-20 border-2 border-gray-700 mt-40 rounded-full overflow-hidden">
+      <View className="relative flex-row mx-20 border-2 border-gray-900 mt-32 rounded-full overflow-hidden">
         {/* Animated sliding background */}
         <Animated.View
           style={{
@@ -63,7 +63,7 @@ export default function Toggle() {
           onPress={() => setIsLogin(false)}>
           <Text
             className={`text-center font-semibold text-lg ${
-              !isLogin ? 'text-gray-200' : 'text-black'
+              !isLogin ? 'text-gray-200' : 'text-gray-900'
             }`}>
             Sign-up
           </Text>
