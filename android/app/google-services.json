@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329297762217",
+    "project_id": "postgen-2b2f0",
+    "storage_bucket": "postgen-2b2f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329297762217:android:10c1d578e7a1c4539016b8",
+        "android_client_info": {
+          "package_name": "com.postgen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgAnjvi86mZDXQUXTchBoLRvRi-KKG3x0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
