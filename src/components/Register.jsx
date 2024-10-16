@@ -3,7 +3,6 @@ import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {registerUser} from '../services/auth';
-import {useOrientation} from '../hooks/useOrientation';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -17,9 +16,7 @@ const validationSchema = Yup.object().shape({
     .required('Confirm password is required'),
 });
 
-export default function Register() {
-  const {isLandscape} = useOrientation();
-
+export default function Register({isDark}) {
   const handleRegister = async (values, {setSubmitting, resetForm}) => {
     const {email, password} = values;
     try {
@@ -39,7 +36,10 @@ export default function Register() {
   return (
     <View className="">
       <View className="p-8 rounded-lg shadow-lg w-96">
-        <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">
+        <Text
+          className={`text-3xl font-bold mb-8 text-center ${
+            isDark ? 'text-darkSecondary' : 'text-secondary'
+          }`}>
           Create Account
         </Text>
 
@@ -60,7 +60,12 @@ export default function Register() {
             <>
               {/* Email Input */}
               <TextInput
-                className="border border-gray-300 p-4 w-full mb-4 rounded-lg focus:border-gray-700"
+                className={`p-4 w-full mb-4 rounded-lg ${
+                  isDark
+                    ? 'border-none focus:border-none bg-darkAccent text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                }`}
+                placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Email"
                 value={values.email}
                 onChangeText={handleChange('email')}
@@ -74,7 +79,12 @@ export default function Register() {
 
               {/* Password Input */}
               <TextInput
-                className="border border-gray-300 p-4 w-full mb-4 rounded-lg focus:border-gray-700"
+                className={`p-4 w-full mb-4 rounded-lg ${
+                  isDark
+                    ? 'border-none focus:border-none bg-darkAccent text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                }`}
+                placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Password"
                 value={values.password}
                 onChangeText={handleChange('password')}
@@ -87,7 +97,12 @@ export default function Register() {
 
               {/* Confirm Password Input */}
               <TextInput
-                className="border border-gray-300 p-4 w-full mb-4 rounded-lg focus:border-gray-700"
+                className={`p-4 w-full mb-4 rounded-lg ${
+                  isDark
+                    ? 'border-none focus:border-none bg-darkAccent text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                }`}
+                placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Confirm Password"
                 value={values.confirmPassword}
                 onChangeText={handleChange('confirmPassword')}
@@ -102,10 +117,15 @@ export default function Register() {
 
               {/* Register Button */}
               <TouchableOpacity
-                className="bg-gray-800 p-4 rounded-lg"
+                className={`${
+                  isDark ? 'bg-darkSecondary' : 'bg-secondary'
+                } p-4 rounded-lg`}
                 onPress={handleSubmit}
                 disabled={isSubmitting}>
-                <Text className="text-white text-center font-semibold text-lg">
+                <Text
+                  className={`text-center font-semibold text-lg ${
+                    isDark ? 'text-black' : 'text-white'
+                  }`}>
                   Sign-up
                 </Text>
               </TouchableOpacity>

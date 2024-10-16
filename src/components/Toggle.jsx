@@ -1,86 +1,119 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-  Easing,
-  Pressable,
-} from 'react-native';
+import {View, Text, Animated, Easing, Pressable} from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
-import Register from './Register';
 import Login from './Login';
+import Register from './Register';
+import Icon from 'react-native-vector-icons/Feather';
 
 export default function Toggle() {
   const [isLogin, setIsLogin] = useState(false);
-  const slideAnim = useRef(new Animated.Value(0)).current; // Animated value for sliding
+  const slideAnim = useRef(new Animated.Value(0)).current;
+  const [isDark, setIsDark] = useState(false);
 
-  // Handle animation whenever isLogin changes
+  const handleDarkMode = () => {
+    setIsDark(prevMode => !prevMode);
+  };
+
+  const moon = (
+    <Icon name="moon" size={40} color={isDark ? '#877EFF' : 'black'} />
+  );
+  const sun = (
+    <Icon name="sun" size={40} color={isDark ? 'white' : '#1F2937'} />
+  );
+
   useEffect(() => {
     Animated.timing(slideAnim, {
-      toValue: isLogin ? 1 : 0, // Move to "Login" if true, otherwise "Sign-up"
+      toValue: isLogin ? 1 : 0,
       duration: 300,
-      useNativeDriver: false, // Layout animation needs useNativeDriver to be false
+      useNativeDriver: false,
       easing: Easing.inOut(Easing.ease),
     }).start();
   }, [isLogin, slideAnim]);
 
-  // Interpolate the animated value to move between two positions
   const translateX = slideAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 130], // Adjust these values based on the width of the toggle container
+    outputRange: [0, 125],
   });
 
   return (
-    <View className="flex-1 justify-center items-center bg-gray-200">
-      {/* Form Section */}
-      <Animated.View
-        style={{
-          height: 300, // Set a fixed height to prevent layout jerk
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {isLogin ? <Login /> : <Register />}
-      </Animated.View>
-
-      {/* Toggle Switch */}
-      <View className="relative flex-row mx-20 border-2 border-gray-900 mt-32 rounded-full overflow-hidden">
-        {/* Animated sliding background */}
-        <Animated.View
-          style={{
-            width: '50%', // Fixed width of 50% for both Sign-up and Login
-            height: '100%',
-            backgroundColor: 'rgba(31, 41, 55, 1)', // bg-gray-800
-            position: 'absolute',
-            left: 0,
-            transform: [{translateX}], // Move the background
-            borderRadius: 9999, // Rounded corners
-          }}
-        />
-
-        {/* Sign-up Button */}
-        <Pressable
-          className="flex-1 py-3 rounded-full"
-          onPress={() => setIsLogin(false)}>
-          <Text
-            className={`text-center font-semibold text-lg ${
-              !isLogin ? 'text-gray-200' : 'text-gray-900'
-            }`}>
-            Sign-up
-          </Text>
-        </Pressable>
-
-        {/* Login Button */}
-        <Pressable
-          className="flex-1 py-3 rounded-full"
-          onPress={() => setIsLogin(true)}>
-          <Text
-            className={`text-center font-semibold text-lg ${
-              isLogin ? 'text-gray-200' : 'text-black'
-            }`}>
-            Login
-          </Text>
+    <>
+      <View
+        className={`flex items-end justify-center ${
+          isDark ? 'bg-black' : 'bg-primary'
+        }`}>
+        <Pressable onPress={handleDarkMode} className={`p-3`}>
+          {isDark ? moon : sun}
         </Pressable>
       </View>
-    </View>
+
+      <View
+        className={`flex-1 justify-center items-center ${
+          isDark ? 'bg-black' : 'bg-primary'
+        }`}>
+        {/* Form Section */}
+        <Animated.View
+          style={{
+            height: 300,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {isLogin ? <Login isDark={isDark} /> : <Register isDark={isDark} />}
+        </Animated.View>
+
+        {/* Toggle Switch */}
+        <View
+          className={`relative flex-row mx-20 border-2 ${
+            isDark ? 'border-[#312d63]' : 'border-secondary'
+          } mt-32 rounded-full overflow-hidden`}>
+          {/* Animated sliding background */}
+          <Animated.View
+            style={{
+              width: '50%',
+              height: '100%',
+              backgroundColor: isDark ? '#877EFF' : '#1F2937',
+              position: 'absolute',
+              left: 0,
+              transform: [{translateX}],
+              borderRadius: 9999,
+            }}
+          />
+
+          {/* Sign-up Button */}
+          <Pressable
+            className="flex-1 py-3 rounded-full"
+            onPress={() => setIsLogin(false)}>
+            <Text
+              className={`text-center font-semibold text-lg ${
+                !isLogin && isDark
+                  ? 'text-black'
+                  : isLogin
+                  ? isDark
+                    ? 'text-darkSecondary'
+                    : 'text-secondary'
+                  : 'text-white'
+              }`}>
+              Sign-up
+            </Text>
+          </Pressable>
+
+          {/* Login Button */}
+          <Pressable
+            className="flex-1 py-3 rounded-full"
+            onPress={() => setIsLogin(true)}>
+            <Text
+              className={`text-center font-semibold text-lg ${
+                isLogin && isDark
+                  ? 'text-black'
+                  : isLogin
+                  ? 'text-white'
+                  : isDark
+                  ? 'text-darkSecondary'
+                  : 'text-secondary'
+              }`}>
+              Login
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </>
   );
 }

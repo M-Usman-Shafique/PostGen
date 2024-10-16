@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-export default function Login({navigation}) {
+export default function Login({isDark}) {
   const handleLogin = async (values, {setSubmitting, resetForm}) => {
     const {email, password} = values;
     try {
@@ -36,7 +36,10 @@ export default function Login({navigation}) {
   return (
     <View className="">
       <View className="p-8 rounded-lg shadow-lg w-96">
-        <Text className="text-3xl font-bold text-gray-800 mb-8 text-center">
+        <Text
+          className={`text-3xl font-bold ${
+            isDark ? 'text-darkSecondary' : 'text-secondary'
+          } mb-8 text-center`}>
           Login
         </Text>
 
@@ -58,7 +61,12 @@ export default function Login({navigation}) {
               {/* Email Input */}
               <TextInput
                 placeholder="Email"
-                className="border border-gray-300 p-4 w-full mb-4 rounded-lg focus:border-gray-700"
+                className={`p-4 w-full mb-4 rounded-lg ${
+                  isDark
+                    ? 'border-none focus:border-none bg-darkAccent text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                }`}
+                placeholderTextColor={isDark ? '#718096' : 'gray'}
                 value={values.email}
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
@@ -72,7 +80,12 @@ export default function Login({navigation}) {
               {/* Password Input */}
               <TextInput
                 placeholder="Password"
-                className="border border-gray-300 p-4 w-full mb-4 rounded-lg focus:border-gray-700"
+                className={`p-4 w-full mb-4 rounded-lg ${
+                  isDark
+                    ? 'border-none focus:border-none bg-darkAccent text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                }`}
+                placeholderTextColor={isDark ? '#718096' : 'gray'}
                 value={values.password}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
@@ -84,10 +97,15 @@ export default function Login({navigation}) {
 
               {/* Login Button */}
               <TouchableOpacity
-                className="bg-gray-800 p-4 rounded-lg"
+                className={`${
+                  isDark ? 'bg-darkSecondary' : 'bg-secondary'
+                } p-4 rounded-lg`}
                 onPress={handleSubmit}
                 disabled={isSubmitting}>
-                <Text className="text-white text-center font-semibold text-lg">
+                <Text
+                  className={`text-center font-semibold text-lg ${
+                    isDark ? 'text-black' : 'text-white'
+                  }`}>
                   Login
                 </Text>
               </TouchableOpacity>
