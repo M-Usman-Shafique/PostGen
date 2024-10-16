@@ -3,6 +3,7 @@ import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {loginUser} from '../services/auth';
+import {useNotifications} from 'react-native-notificated';
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -13,25 +14,43 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Login({isDark}) {
+  const {notify} = useNotifications();
+
   const handleLogin = async (values, {setSubmitting, resetForm}) => {
     const {email, password} = values;
     try {
       const {emailVerified} = await loginUser(email, password);
       if (emailVerified) {
-        Alert.alert('Success', 'You are logged in');
+        notify('success', {
+          params: {
+            description: 'You are successfully logged in.',
+          },
+        });
         resetForm();
         setSubmitting(false);
       } else {
-        Alert.alert('Error', 'Email is not verified');
+        notify('error', {
+          params: {
+            title: 'Login failed.',
+            description: 'Email is not verified.',
+          },
+        });
         resetForm();
         setSubmitting(false);
       }
     } catch (error) {
-      Alert.alert('Error', error.message);
+      notify('error', {
+        params: {
+          title: 'Login failed.',
+          description: `${error.message}`,
+        },
+      });
       resetForm();
       setSubmitting(false);
     }
   };
+
+  // hafizusmanshafiq@gmail.com
 
   return (
     <View className="">

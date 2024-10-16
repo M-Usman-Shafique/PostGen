@@ -3,6 +3,7 @@ import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {registerUser} from '../services/auth';
+import {useNotifications} from 'react-native-notificated';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -17,18 +18,27 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Register({isDark}) {
+  const {notify} = useNotifications();
+
   const handleRegister = async (values, {setSubmitting, resetForm}) => {
     const {email, password} = values;
     try {
       await registerUser(email, password);
-      Alert.alert(
-        'Success',
-        'A Verification Email has been sent to your email address',
-      );
+      notify('success', {
+        params: {
+          description:
+            'A verification email has been sent to your email address.',
+        },
+      });
       resetForm();
       setSubmitting(false);
     } catch (error) {
-      Alert.alert('Error registering user: ', error.message);
+      notify('error', {
+        params: {
+          title: 'Error:',
+          description: `Error registering user: ${error.message}`,
+        },
+      });
       setSubmitting(false);
     }
   };

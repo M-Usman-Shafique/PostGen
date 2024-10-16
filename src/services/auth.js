@@ -44,8 +44,8 @@ export const loginUser = async (email, password) => {
       case 'auth/wrong-password':
         errorMessage = 'Incorrect Password';
         break;
-      case 'auth/user-not-found':
-        errorMessage = 'No user found!';
+      case 'auth/invalid-credential':
+        errorMessage = 'Invalid email or password';
         break;
       default:
         errorMessage = 'An unknown error occurred';
