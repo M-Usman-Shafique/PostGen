@@ -60,10 +60,10 @@ export default function Register({isDark}) {
             <>
               {/* Email Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg ${
+                className={`p-4 w-full mb-4 rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Email"
@@ -79,10 +79,10 @@ export default function Register({isDark}) {
 
               {/* Password Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg ${
+                className={`p-4 w-full mb-4 rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Password"
@@ -97,10 +97,10 @@ export default function Register({isDark}) {
 
               {/* Confirm Password Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg ${
+                className={`p-4 w-full mb-4 rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Confirm Password"

@@ -61,12 +61,12 @@ export default function Login({isDark}) {
               {/* Email Input */}
               <TextInput
                 placeholder="Email"
-                className={`p-4 w-full mb-4 rounded-lg ${
+                className={`p-4 w-full mb-4 rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
                 }`}
-                placeholderTextColor={isDark ? '#718096' : 'gray'}
+                placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 value={values.email}
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
@@ -80,12 +80,12 @@ export default function Login({isDark}) {
               {/* Password Input */}
               <TextInput
                 placeholder="Password"
-                className={`p-4 w-full mb-4 rounded-lg ${
+                className={`p-4 w-full mb-4 rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
                 }`}
-                placeholderTextColor={isDark ? '#718096' : 'gray'}
+                placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 value={values.password}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
