@@ -1,4 +1,4 @@
-import {View, Text, Animated, Easing, Pressable} from 'react-native';
+import {View, Text, Animated, Easing, Pressable, StatusBar} from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
 import Login from './Login';
 import Register from './Register';
@@ -33,6 +33,10 @@ export default function Toggle() {
 
   return (
     <>
+      <StatusBar
+        backgroundColor={isDark ? 'black' : '#D1D5DB'}
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+      />
       <View
         className={`flex items-end justify-center ${
           isDark ? 'bg-darkPrimary' : 'bg-primary'
