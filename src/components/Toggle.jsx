@@ -3,15 +3,12 @@ import React, {useState, useRef, useEffect} from 'react';
 import Login from './Login';
 import Register from './Register';
 import Icon from 'react-native-vector-icons/Feather';
+import {useDarkMode} from '../hooks/useDarkMode';
 
 export default function Toggle() {
   const [isLogin, setIsLogin] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
-  const [isDark, setIsDark] = useState(false);
-
-  const handleDarkMode = () => {
-    setIsDark(prevMode => !prevMode);
-  };
+  const {isDark, handleDarkMode} = useDarkMode();
 
   const moon = (
     <Icon name="moon" size={40} color={isDark ? '#877EFF' : 'black'} />
@@ -38,7 +35,7 @@ export default function Toggle() {
     <>
       <View
         className={`flex items-end justify-center ${
-          isDark ? 'bg-black' : 'bg-primary'
+          isDark ? 'bg-darkPrimary' : 'bg-primary'
         }`}>
         <Pressable onPress={handleDarkMode} className={`p-3`}>
           {isDark ? moon : sun}
@@ -47,7 +44,7 @@ export default function Toggle() {
 
       <View
         className={`flex-1 justify-center items-center ${
-          isDark ? 'bg-black' : 'bg-primary'
+          isDark ? 'bg-darkPrimary' : 'bg-primary'
         }`}>
         {/* Form Section */}
         <Animated.View
