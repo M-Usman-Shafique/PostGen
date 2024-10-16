@@ -3,12 +3,12 @@ import React, {useState, useRef, useEffect} from 'react';
 import Login from './Login';
 import Register from './Register';
 import Icon from 'react-native-vector-icons/Feather';
-import {useDarkMode} from '../hooks/useDarkMode';
+import {useDarkModeContext} from '../hooks/useDarkModeContext';
 
 export default function Toggle() {
   const [isLogin, setIsLogin] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
-  const {isDark, handleDarkMode} = useDarkMode();
+  const {isDark, handleDarkMode} = useDarkModeContext();
 
   const moon = (
     <Icon name="moon" size={40} color={isDark ? '#877EFF' : 'black'} />

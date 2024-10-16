@@ -10,6 +10,7 @@ import {
   SlideInLeftSlideOutRight,
 } from 'react-native-notificated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {DarkModeProvider} from './src/hooks/useDarkModeContext';
 
 const {NotificationsProvider} = createNotifications({
   duration: 3000,
@@ -23,7 +24,9 @@ const {NotificationsProvider} = createNotifications({
 const Root = () => (
   <GestureHandlerRootView style={{flex: 1}}>
     <NotificationsProvider>
-      <App />
+      <DarkModeProvider>
+        <App />
+      </DarkModeProvider>
     </NotificationsProvider>
   </GestureHandlerRootView>
 );
