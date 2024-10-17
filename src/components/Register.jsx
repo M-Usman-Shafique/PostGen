@@ -1,4 +1,4 @@
-import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -6,6 +6,7 @@ import {registerUser} from '../services/auth';
 import {useNotifications} from 'react-native-notificated';
 
 const validationSchema = Yup.object().shape({
+  username: Yup.string().required('Username is required'),
   email: Yup.string()
     .email('Invalid email address')
     .required('Email is required'),
@@ -21,11 +22,12 @@ export default function Register({isDark}) {
   const {notify} = useNotifications();
 
   const handleRegister = async (values, {setSubmitting, resetForm}) => {
-    const {email, password} = values;
+    const {email, password, username} = values;
     try {
-      await registerUser(email, password);
+      await registerUser(email, password, username);
       notify('success', {
         params: {
+          title: 'Success:',
           description:
             'A verification email has been sent to your email address.',
         },
@@ -36,7 +38,7 @@ export default function Register({isDark}) {
       notify('error', {
         params: {
           title: 'Error:',
-          description: `Error registering user: ${error.message}`,
+          description: `${error.message}`,
         },
       });
       setSubmitting(false);
@@ -55,7 +57,12 @@ export default function Register({isDark}) {
 
         {/* Formik Form */}
         <Formik
-          initialValues={{email: '', password: '', confirmPassword: ''}}
+          initialValues={{
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          }}
           validationSchema={validationSchema}
           onSubmit={handleRegister}>
           {({
@@ -68,6 +75,22 @@ export default function Register({isDark}) {
             isSubmitting,
           }) => (
             <>
+              {/* Username Input */}
+              <TextInput
+                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                  isDark
+                    ? 'border-none focus:border-none bg-darkAccent text-white'
+                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
+                }`}
+                placeholderTextColor={isDark ? '#718096' : '#4B5563'}
+                placeholder="Username"
+                value={values.username}
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+              />
+              {touched.username && errors.username && (
+                <Text className="text-red-500 text-sm">{errors.username}</Text>
+              )}
               {/* Email Input */}
               <TextInput
                 className={`p-4 w-full mb-4 rounded-lg text-lg ${

@@ -1,4 +1,4 @@
-import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-export default function Login({isDark}) {
+export default function Login({isDark, navigation}) {
   const {notify} = useNotifications();
 
   const handleLogin = async (values, {setSubmitting, resetForm}) => {
@@ -23,11 +23,13 @@ export default function Login({isDark}) {
       if (emailVerified) {
         notify('success', {
           params: {
+            title: 'Congrats!',
             description: 'You are successfully logged in.',
           },
         });
         resetForm();
         setSubmitting(false);
+        navigation.navigate('DrawerMenu', {screen: 'Home'});
       } else {
         notify('error', {
           params: {
@@ -49,8 +51,6 @@ export default function Login({isDark}) {
       setSubmitting(false);
     }
   };
-
-  // hafizusmanshafiq@gmail.com
 
   return (
     <View className="">

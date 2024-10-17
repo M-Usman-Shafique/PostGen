@@ -1,0 +1,1 @@
+I'm trying to build a social media app using CLI based React Native. I already have made "Register" and "Login" components and rendered them inside "Toggle" component of my app. For user authentication I used firebase email/password auth. Now, when the user is successfully logged in, I want to redirect him to the Home screen (Home component) of my app. How can I do that?

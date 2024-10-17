@@ -2,10 +2,11 @@ import {View, Text, Animated, Easing, Pressable, StatusBar} from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
 import Login from './Login';
 import Register from './Register';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icony from 'react-native-vector-icons/Feather';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
 
-export default function Toggle() {
+export default function Toggle({navigation}) {
   const [isLogin, setIsLogin] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const {isDark, handleDarkMode} = useDarkModeContext();
@@ -14,7 +15,7 @@ export default function Toggle() {
     <Icon name="moon" size={40} color={isDark ? '#877EFF' : 'black'} />
   );
   const sun = (
-    <Icon name="sun" size={40} color={isDark ? 'white' : '#1F2937'} />
+    <Icony name="sun" size={40} color={isDark ? 'white' : '#1F2937'} />
   );
 
   useEffect(() => {
@@ -57,7 +58,11 @@ export default function Toggle() {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          {isLogin ? <Login isDark={isDark} /> : <Register isDark={isDark} />}
+          {isLogin ? (
+            <Login isDark={isDark} navigation={navigation} />
+          ) : (
+            <Register isDark={isDark} />
+          )}
         </Animated.View>
 
         {/* Toggle Switch */}
