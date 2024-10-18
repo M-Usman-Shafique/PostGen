@@ -12,8 +12,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icony from 'react-native-vector-icons/MaterialIcons';
 import Icono from 'react-native-vector-icons/Feather';
 import ToggleSwitch from 'toggle-switch-react-native';
+import {useNotifications} from 'react-native-notificated';
 
 export default function CustomDrawer(props) {
+  const {notify} = useNotifications();
   const {isDark, handleDarkMode} = useDarkModeContext();
   const [user, setUser] = useState(null);
 
@@ -35,6 +37,12 @@ export default function CustomDrawer(props) {
   const handleLogout = async () => {
     try {
       await auth().signOut();
+      notify('success', {
+        params: {
+          title: 'GoodBye',
+          description: 'Hope to see you again.',
+        },
+      });
     } catch (error) {
       console.error('Error logging out: ', error);
     }

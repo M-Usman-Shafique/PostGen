@@ -23,7 +23,7 @@ export default function Login({isDark, navigation}) {
       if (emailVerified) {
         notify('success', {
           params: {
-            title: 'Congrats!',
+            title: 'Welcome!',
             description: 'You are successfully logged in.',
           },
         });

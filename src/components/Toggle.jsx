@@ -1,4 +1,4 @@
-import {View, Text, Animated, Easing, Pressable, StatusBar} from 'react-native';
+import {View, Text, Animated, Easing, Pressable} from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
 import Login from './Login';
 import Register from './Register';
