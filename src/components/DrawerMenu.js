@@ -3,6 +3,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './CustomDrawer';
 import Home from './Home';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Icony from 'react-native-vector-icons/Feather';
+import {Pressable} from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
@@ -12,20 +14,36 @@ export default function DrawerMenu() {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
-      screenOptions={{
+      screenOptions={({navigation}) => ({
         headerStyle: {
           backgroundColor: isDark ? '#000000' : '#D1D5DB',
         },
+        headerTitleStyle: {
+          fontSize: 24,
+          fontWeight: 'semibold',
+        },
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <Icony
+              name="menu"
+              size={32}
+              color={isDark ? '#877EFF' : '#1F2937'}
+              style={{marginLeft: 16}}
+            />
+          </Pressable>
+        ),
         headerTintColor: isDark ? '#877EFF' : '#1F2937',
         drawerStyle: {
           backgroundColor: isDark ? '#000000' : '#D1D5DB',
         },
         drawerLabelStyle: {
           color: isDark ? '#877EFF' : '#1F2937',
-          fontSize: 22,
+          fontSize: 24,
+          marginLeft: -18,
         },
         drawerActiveTintColor: isDark ? 'white' : 'black',
-      }}>
+      })}>
       <Drawer.Screen
         name="Home"
         component={Home}
@@ -33,7 +51,7 @@ export default function DrawerMenu() {
           drawerIcon: () => (
             <Icon
               name="home"
-              size={30}
+              size={28}
               color={isDark ? '#877EFF' : '#1F2937'}
             />
           ),

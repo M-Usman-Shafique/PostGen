@@ -4,7 +4,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {Image, Switch, Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
 import auth from '@react-native-firebase/auth';
 import Avatar from '../images/avatar.jpg';
@@ -18,13 +18,13 @@ export default function CustomDrawer(props) {
   const [user, setUser] = useState(null);
 
   const moon = (
-    <Icon name="moon" size={31} color={isDark ? '#877EFF' : 'black'} />
+    <Icon name="moon-outline" size={31} color={isDark ? '#877EFF' : 'black'} />
   );
   const sun = (
     <Icono name="sun" size={31} color={isDark ? '#877EFF' : '#1F2937'} />
   );
   const logout = (
-    <Icony name="logout" size={34} color={isDark ? '#877EFF' : '#1F2937'} />
+    <Icony name="logout" size={33} color={isDark ? '#877EFF' : '#1F2937'} />
   );
 
   useEffect(() => {
@@ -50,12 +50,11 @@ export default function CustomDrawer(props) {
     >
       {user && (
         <View className="flex items-center p-4">
-          {/* Display user avatar user.photoURL */}
+          {/* Display profile info (avatar, username & email) */}
           <Image
             source={Avatar}
             style={{width: 80, height: 80, borderRadius: 40}}
           />
-          {/* Display username and email */}
           <Text
             style={{
               color: isDark ? '#877EFF' : '#1F2937',
@@ -75,27 +74,22 @@ export default function CustomDrawer(props) {
           </Text>
         </View>
       )}
-
+      {/* Display "Home" from DrawerMenu*/}
       <DrawerItemList {...props} />
+      {/* Display Current Mode */}
       <View className="flex-row items-center p-4">
         {isDark ? moon : sun}
         <Text
-          className={`flex-1 text-2xl ml-8 ${
+          className={`flex-1 text-2xl font-semibold ml-4 ${
             isDark ? 'text-darkSecondary' : 'text-secondary'
           }`}>
           {isDark ? 'Dark' : 'Light'}
         </Text>
-        {/* <Switch
-          value={isDark}
-          onValueChange={handleDarkMode}
-          trackColor={{false: '#767577', true: '#ccc'}}
-          thumbColor={isDark ? '#877EFF' : '#f4f3f3'}
-        /> */}
         <ToggleSwitch
           isOn={isDark}
-          onColor="#f7f7f7"
+          onColor="#877EFF"
           offColor="#767577"
-          thumbOnStyle={{backgroundColor: '#877EFF'}}
+          thumbOnStyle={{backgroundColor: '#000000'}}
           size="medium"
           onToggle={handleDarkMode}
         />
@@ -106,7 +100,9 @@ export default function CustomDrawer(props) {
         icon={() => logout}
         labelStyle={{
           color: isDark ? '#877EFF' : '#1F2937',
-          fontSize: 22,
+          fontSize: 23,
+          fontWeight: 'bold',
+          marginLeft: -18,
         }}
       />
     </DrawerContentScrollView>
