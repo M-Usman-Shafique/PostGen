@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Toggle from './src/components/Toggle';
 import auth from '@react-native-firebase/auth';
 import {ActivityIndicator, StatusBar, View} from 'react-native';
-import DrawerMenu from './src/components/DrawerMenu';
+import DrawerMenu from './src/screens/DrawerMenu';
 import {useDarkModeContext} from './src/hooks/useDarkModeContext';
 
 const Stack = createNativeStackNavigator();

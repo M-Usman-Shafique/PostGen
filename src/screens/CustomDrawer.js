@@ -7,7 +7,7 @@ import {
 import {Image, Text, View} from 'react-native';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
 import auth from '@react-native-firebase/auth';
-import Avatar from '../images/avatar.jpg';
+import Avatar from '../images/emoji.png';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icony from 'react-native-vector-icons/MaterialIcons';
 import Icono from 'react-native-vector-icons/Feather';

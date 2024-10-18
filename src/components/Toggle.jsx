@@ -12,10 +12,10 @@ export default function Toggle({navigation}) {
   const {isDark, handleDarkMode} = useDarkModeContext();
 
   const moon = (
-    <Icon name="moon" size={40} color={isDark ? '#877EFF' : 'black'} />
+    <Icon name="moon" size={37} color={isDark ? '#877EFF' : 'black'} />
   );
   const sun = (
-    <Icony name="sun" size={40} color={isDark ? 'white' : '#1F2937'} />
+    <Icony name="sun" size={37} color={isDark ? 'white' : '#1F2937'} />
   );
 
   useEffect(() => {
