@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Image, FlatList, Pressable, Alert} from 'react-native';
 import {deletePost, getPosts} from '../services/firestore';
 import Avatar from '../images/emoji.jpg';
-import {multiFormatDate} from '../services/formatDate';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icony from 'react-native-vector-icons/FontAwesome6';
 import Icono from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import EditPost from './EditPost';
+import {formatTime} from '../services/formatTime';
 
 export default function ShowPosts({isDark, posts, setPosts}) {
   const [editingPostId, setEditingPostId] = useState(null);
@@ -79,20 +79,19 @@ export default function ShowPosts({isDark, posts, setPosts}) {
   };
 
   const renderPostCard = ({item}) => {
-    // const postDate = item.createdAt.toLocaleString();
-
     let postDate = 'Loading...';
 
     if (item.createdAt) {
-      postDate = new Date(item.createdAt).toLocaleString();
+      postDate = formatTime(item.createdAt);
     }
+
     return (
       <View
-        className={`shadow-2xl rounded-lg p-4 mb-4 ${
+        className={`-z-50 shadow-2xl rounded-lg p-4 mb-4 ${
           isDark ? 'bg-darkAccent' : 'bg-gray-200'
         }`}>
         {/* Post Card */}
-        <View className="flex-row justify-between mb-2 -z-10">
+        <View className="flex-row justify-between mb-2">
           <View className="flex-row">
             <Image
               source={item.userAvatar ? {uri: item.userAvatar} : Avatar}
