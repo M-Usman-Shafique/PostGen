@@ -7,7 +7,7 @@ import Icony from 'react-native-vector-icons/FontAwesome6';
 import Icono from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import EditPost from './EditPost';
-import {formatTime} from '../services/formatTime';
+import {formatDate} from '../services/formatData';
 
 export default function ShowPosts({isDark, posts, setPosts}) {
   const [editingPostId, setEditingPostId] = useState(null);
@@ -82,7 +82,7 @@ export default function ShowPosts({isDark, posts, setPosts}) {
     let postDate = 'Loading...';
 
     if (item.createdAt) {
-      postDate = formatTime(item.createdAt);
+      postDate = formatDate(item.createdAt);
     }
 
     return (
