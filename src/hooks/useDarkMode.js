@@ -35,9 +35,5 @@ export const useDarkMode = () => {
     getDarkMode();
   }, []);
 
-  // const handleDarkMode = () => {
-  //   setIsDark(prevMode => !prevMode);
-  // };
-
   return {isDark, handleDarkMode};
 };

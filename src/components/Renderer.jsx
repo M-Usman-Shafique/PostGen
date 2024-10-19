@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icony from 'react-native-vector-icons/Feather';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
 
-export default function Toggle({navigation}) {
+export default function Renderer({navigation}) {
   const [isLogin, setIsLogin] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const {isDark, handleDarkMode} = useDarkModeContext();
@@ -34,10 +34,6 @@ export default function Toggle({navigation}) {
 
   return (
     <>
-      {/* <StatusBar
-        backgroundColor={isDark ? 'black' : '#D1D5DB'}
-        barStyle={isDark ? 'light-content' : 'dark-content'}
-      /> */}
       <View
         className={`flex items-end justify-center ${
           isDark ? 'bg-darkPrimary' : 'bg-primary'
@@ -83,7 +79,7 @@ export default function Toggle({navigation}) {
             }}
           />
 
-          {/* Sign-up Button */}
+          {/* Sign-up Renderer */}
           <Pressable
             className="flex-1 py-3 rounded-full"
             onPress={() => setIsLogin(false)}>
@@ -101,7 +97,7 @@ export default function Toggle({navigation}) {
             </Text>
           </Pressable>
 
-          {/* Login Button */}
+          {/* Login Renderer */}
           <Pressable
             className="flex-1 py-3 rounded-full"
             onPress={() => setIsLogin(true)}>

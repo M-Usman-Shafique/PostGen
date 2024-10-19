@@ -28,13 +28,9 @@ export default function CreatePost({isDark, onAddPost}) {
   const upload = <Icon name="images" size={42} color="gray" />;
   const camera = <Icon name="camera" size={45} color="gray" />;
 
-  // Function to launch camera
   const handleCameraLaunch = setFieldValue => {
     const options = {
       mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 2000,
-      maxWidth: 2000,
     };
     launchCamera(options, response => {
       if (!response.didCancel && !response.error) {
@@ -45,13 +41,9 @@ export default function CreatePost({isDark, onAddPost}) {
     });
   };
 
-  // Function to open image picker
   const openImagePicker = setFieldValue => {
     const options = {
       mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 2000,
-      maxWidth: 2000,
     };
     launchImageLibrary(options, response => {
       if (!response.didCancel && !response.error) {
@@ -62,7 +54,6 @@ export default function CreatePost({isDark, onAddPost}) {
     });
   };
 
-  // Function to submit post data
   const handlePostSubmit = async (values, {resetForm}) => {
     const trimmedTitle = values.title.trim();
 

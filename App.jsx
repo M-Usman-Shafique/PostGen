@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Toggle from './src/components/Toggle';
 import auth from '@react-native-firebase/auth';
 import {ActivityIndicator, StatusBar, View} from 'react-native';
 import DrawerMenu from './src/screens/DrawerMenu';
 import {useDarkModeContext} from './src/hooks/useDarkModeContext';
+import Renderer from './src/components/Renderer';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +14,6 @@ export default function App() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 
-  // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
     if (initializing) setInitializing(false);
@@ -27,7 +26,7 @@ export default function App() {
 
   if (initializing) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
       </View>
     );
@@ -40,7 +39,7 @@ export default function App() {
         barStyle={isDark ? 'light-content' : 'dark-content'}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Toggle">
+        <Stack.Navigator initialRouteName="Renderer">
           {user?.emailVerified ? (
             <Stack.Screen
               name="DrawerMenu"
@@ -49,8 +48,8 @@ export default function App() {
             />
           ) : (
             <Stack.Screen
-              name="Toggle"
-              component={Toggle}
+              name="Renderer"
+              component={Renderer}
               options={{headerShown: false}}
             />
           )}

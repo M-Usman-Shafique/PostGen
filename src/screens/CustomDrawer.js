@@ -39,7 +39,7 @@ export default function CustomDrawer(props) {
       await auth().signOut();
       notify('success', {
         params: {
-          title: 'GoodBye',
+          title: 'Logout Successfull!',
           description: 'Hope to see you again.',
         },
       });
@@ -82,8 +82,10 @@ export default function CustomDrawer(props) {
           </Text>
         </View>
       )}
-      {/* Display "Home" from DrawerMenu*/}
+
+      {/* Display "Home" via DrawerMenu*/}
       <DrawerItemList {...props} />
+
       {/* Display Current Mode */}
       <View className="flex-row items-center p-4">
         {isDark ? moon : sun}
@@ -102,6 +104,7 @@ export default function CustomDrawer(props) {
           onToggle={handleDarkMode}
         />
       </View>
+
       <DrawerItem
         label="Logout"
         onPress={handleLogout}

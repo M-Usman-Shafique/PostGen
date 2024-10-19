@@ -1,6 +1,0 @@
-// console.log('original:', item.createdAt.toLocaleString());
-    // const createdAtDate =
-    //   item.createdAt && item.createdAt.toDate
-    //     ? item.createdAt.toDate()
-    //     : new Date();
-    // console.log('current:', createdAtDate.toLocaleString());
