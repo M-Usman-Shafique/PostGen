@@ -20,24 +20,18 @@ export default function ShowPosts() {
   const dots = (
     <Icon
       name="dots-horizontal"
-      size={35}
-      color={isDark ? '#877EFF' : 'black'}
+      size={30}
+      color={isDark ? 'dimgray' : 'gray'}
     />
   );
   const edit = (
     <Icony
       name="pen-to-square"
       size={20}
-      color={isDark ? '#877EFF' : 'black'}
+      color={isDark ? '#877EFF' : '#1A202C'}
     />
   );
-  const del = (
-    <Icono
-      name="trash-outline"
-      size={24}
-      color={isDark ? '#877EFF' : 'black'}
-    />
-  );
+  const del = <Icono name="trash-outline" size={24} color="#C53030" />;
 
   const handleDropdownToggle = index => {
     setDropdownVisible(prev => (prev === index ? null : index));
@@ -89,16 +83,22 @@ export default function ShowPosts() {
 
   const renderPostCard = ({item}) => {
     return (
-      <View className="bg-gray-200 shadow-2xl rounded-lg p-4 mb-4 border border-gray-300">
-        {/* User Avatar and Username */}
-        <View className="flex-row justify-between mb-2">
+      <View
+        className={`shadow-2xl rounded-lg p-4 mb-4 ${
+          isDark ? 'bg-darkAccent' : 'bg-gray-200'
+        }`}>
+        {/* Post Card */}
+        <View className="flex-row justify-between mb-2 -z-10">
           <View className="flex-row">
             <Image
               source={item.userAvatar ? {uri: item.userAvatar} : Avatar}
               className="w-12 h-12 rounded-full mr-4"
             />
             <View>
-              <Text className="text-lg font-semibold text-secondary">
+              <Text
+                className={`text-lg font-semibold ${
+                  isDark ? 'text-gray-300' : 'text-secondary'
+                }`}>
                 {item.username || 'Anonymous'}
               </Text>
               <Text className="text-gray-500 text-xs">
@@ -115,18 +115,30 @@ export default function ShowPosts() {
 
         {/* Dropdown Menu */}
         {dropdownVisible === item.id && (
-          <View className="absolute right-4 top-10 z-10 bg-gray-200 shadow-xl rounded-md border py-2 border-gray-400">
+          <View
+            className={`absolute right-4 top-10 z-50 shadow-xl rounded-md border py-2 w-1/2 ${
+              isDark
+                ? 'bg-darkAccent border-gray-700'
+                : 'border-gray-400 bg-gray-200'
+            }`}>
             <Pressable
               onPress={() => handleEdit(item.id)}
-              className="flex-row items-center pb-2 px-2 border-b border-gray-400">
+              className={`flex-row items-center py-2 px-3 border-b ${
+                isDark ? 'border-gray-700' : 'border-gray-400'
+              }`}>
               {edit}
-              <Text className="ml-2 text-lg text-gray-900">Edit</Text>
+              <Text
+                className={`px-2 text-lg ${
+                  isDark ? 'text-darkSecondary' : 'text-gray-900'
+                }`}>
+                Edit
+              </Text>
             </Pressable>
             <Pressable
               onPress={() => handleDelete(item.id)}
-              className="flex-row items-center pt-2 pr-2 pl-1">
+              className="flex-row items-center py-2 px-2">
               {del}
-              <Text className="px-1 text-lg text-gray-900">Delete</Text>
+              <Text className={`px-1 text-lg text-red-700`}>Delete</Text>
             </Pressable>
           </View>
         )}
@@ -138,11 +150,17 @@ export default function ShowPosts() {
             initialImage={item.image}
             onClose={() => setEditingPostId(null)}
             onUpdate={handleUpdate}
+            isDark={isDark}
           />
         ) : (
           <>
             {/* Post Title */}
-            <Text className="text-lg text-black mb-2">{item.title}</Text>
+            <Text
+              className={`text-lg mb-2 ${
+                isDark ? 'text-white' : 'text-black'
+              }`}>
+              {item.title}
+            </Text>
 
             {/* Post Image */}
             {item.image && (
@@ -159,13 +177,12 @@ export default function ShowPosts() {
   };
 
   return (
-    <View className="mx-6 mt-6">
+    <View className="flex-1 mx-6 mt-6">
       {posts?.length > 0 ? (
         <FlatList
           data={posts}
           renderItem={renderPostCard}
           keyExtractor={item => item.id}
-          scrollEnabled={false}
         />
       ) : (
         <Text className="text-center text-secondary">No posts available.</Text>

@@ -24,8 +24,12 @@ export default function CreatePost({isDark}) {
   const inputRef = useRef(null);
   const user = auth().currentUser;
 
-  const upload = <Icon name="images" size={42} color="gray" />;
-  const camera = <Icon name="camera" size={45} color="gray" />;
+  const upload = (
+    <Icon name="images" size={42} color={isDark ? '	#202020' : 'gray'} />
+  );
+  const camera = (
+    <Icon name="camera" size={45} color={isDark ? '	#202020' : 'gray'} />
+  );
 
   // Function to launch camera
   const handleCameraLaunch = setFieldValue => {
@@ -63,7 +67,9 @@ export default function CreatePost({isDark}) {
 
   // Function to submit post data
   const handlePostSubmit = async (values, {resetForm}) => {
-    if (!values.title && !values.image) {
+    const trimmedTitle = values.title.trim();
+
+    if (!trimmedTitle && !values.image) {
       inputRef.current.focus();
       return;
     }
@@ -72,7 +78,7 @@ export default function CreatePost({isDark}) {
       const postData = {
         userId: user.uid,
         username: user.displayName || 'Anonymous',
-        title: values.title,
+        title: trimmedTitle,
         image: values.image,
         createdAt: new Date(),
       };
@@ -95,32 +101,47 @@ export default function CreatePost({isDark}) {
       validationSchema={PostSchema}
       onSubmit={handlePostSubmit}>
       {({handleChange, handleSubmit, setFieldValue, values}) => (
-        <View className="mx-6 mt-6">
+        <View className="mx-6 mt-4">
           {/* Title Input */}
           <TextInput
             value={values.title}
-            className="border border-secondary rounded-md text-lg p-4 mb-2 text-secondary"
+            className={`rounded-md text-lg p-4 mb-2 border ${
+              isDark
+                ? 'border-none bg-darkAccent text-gray-200'
+                : 'border-secondary text-gray-950'
+            }`}
+            placeholderTextColor={isDark ? '#718096' : '#4B5563'}
             placeholder="What's on your mind?"
             onChangeText={handleChange('title')}
-            style={{color: '#1F2937'}}
             ref={inputRef}
           />
 
           {/* Camera and Image Picker Buttons */}
-          <View className="flex-row gap-4">
+          <View className={`flex-row gap-2`}>
             <Pressable
               onPress={() => handleCameraLaunch(setFieldValue)}
-              className="flex-1 justify-center items-center p-4 rounded-md mb-2 h-32">
+              className={`flex-1 justify-center items-center p-4 rounded-md mb-2 h-32 ${
+                isDark && 'bg-darkAccent'
+              }`}>
               {camera}
-              <Text className="text-base">Take a snapshot</Text>
+              <Text
+                className={`-mb-1 mt-2 text-base ${isDark && 'text-gray-500'}`}>
+                Take a snapshot
+              </Text>
             </Pressable>
             <Pressable
               onPress={() => openImagePicker(setFieldValue)}
-              className="flex-1 justify-center items-center p-4 rounded-md mb-2 h-32">
+              className={`flex-1 justify-center items-center p-4 rounded-md h-32 ${
+                isDark && 'bg-darkAccent'
+              }`}>
               {upload}
-              <Text className="text-base">Select an image</Text>
+              <Text
+                className={`-mb-2 mt-2 text-base ${isDark && 'text-gray-500'}`}>
+                Select an image
+              </Text>
             </Pressable>
           </View>
+          {/* Image Preview */}
           {selectedImage && (
             <Image
               source={{uri: selectedImage}}
@@ -131,8 +152,12 @@ export default function CreatePost({isDark}) {
           {/* Create Post Button */}
           <TouchableOpacity
             onPress={handleSubmit}
-            className="bg-secondary p-4 rounded-md">
-            <Text className="text-white text-center">Create Post</Text>
+            className={`p-3 rounded-md ${
+              isDark ? 'bg-darkSecondary' : 'bg-secondary'
+            }`}>
+            <Text className="text-white text-center text-base">
+              Create Post
+            </Text>
           </TouchableOpacity>
         </View>
       )}

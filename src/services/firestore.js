@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 export const addPostData = async postData => {
   try {
     await firestore().collection('posts').add(postData);
-    console.log('Post added Successfully!');
+    console.log('Post created Successfully!');
   } catch (error) {
     console.error('Error adding post data:', error);
   }

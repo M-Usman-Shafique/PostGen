@@ -18,6 +18,7 @@ export default function EditPost({
   initialImage,
   onClose,
   onUpdate,
+  isDark,
 }) {
   const [title, setTitle] = useState(initialTitle);
   const [selectedImage, setSelectedImage] = useState(initialImage);
@@ -67,11 +68,12 @@ export default function EditPost({
   };
 
   const handleUpdate = async () => {
-    if (!title.trim() && !selectedImage) {
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle && !selectedImage) {
       return;
     }
 
-    const updatedData = {title, image: selectedImage};
+    const updatedData = {trimmedTitle, image: selectedImage};
     try {
       await updatePost(postId, updatedData);
       onUpdate();
@@ -84,10 +86,11 @@ export default function EditPost({
     <>
       {/* Title Input */}
       <TextInput
-        className="text-lg text-black"
+        className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}
         value={title}
         onChangeText={setTitle}
         placeholder="What's on your mind?"
+        placeholderTextColor={isDark ? '#718096' : '#4B5563'}
         ref={titleInputRef}
       />
 
@@ -113,13 +116,17 @@ export default function EditPost({
           onPress={handleCameraLaunch}
           className="flex-1 justify-center items-center p-4 rounded-md mb-2 h-32">
           {camera}
-          <Text className="text-base">Take a snapshot</Text>
+          <Text className={`text-base ${isDark && 'text-gray-500'}`}>
+            Take a snapshot
+          </Text>
         </Pressable>
         <Pressable
           onPress={openImagePicker}
           className="flex-1 justify-center items-center p-4 rounded-md mb-2 h-32">
           {upload}
-          <Text className="text-base">Select an image</Text>
+          <Text className={`text-base ${isDark && 'text-gray-500'}`}>
+            Select an image
+          </Text>
         </Pressable>
       </View>
 
@@ -132,7 +139,9 @@ export default function EditPost({
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleUpdate}
-          className="flex-1 bg-secondary p-2 rounded-md">
+          className={`flex-1 p-2 rounded-md ${
+            isDark ? 'bg-darkSecondary text-white' : 'bg-secondary'
+          }`}>
           <Text className="text-center text-white">Update</Text>
         </TouchableOpacity>
       </View>
