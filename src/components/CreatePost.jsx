@@ -24,12 +24,8 @@ export default function CreatePost({isDark}) {
   const inputRef = useRef(null);
   const user = auth().currentUser;
 
-  const upload = (
-    <Icon name="images" size={42} color={isDark ? '	#202020' : 'gray'} />
-  );
-  const camera = (
-    <Icon name="camera" size={45} color={isDark ? '	#202020' : 'gray'} />
-  );
+  const upload = <Icon name="images" size={42} color="gray" />;
+  const camera = <Icon name="camera" size={45} color="gray" />;
 
   // Function to launch camera
   const handleCameraLaunch = setFieldValue => {

@@ -1,4 +1,4 @@
-import {View, ScrollView} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
 import CreatePost from './CreatePost';

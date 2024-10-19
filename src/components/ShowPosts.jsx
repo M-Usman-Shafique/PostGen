@@ -185,7 +185,12 @@ export default function ShowPosts() {
           keyExtractor={item => item.id}
         />
       ) : (
-        <Text className="text-center text-secondary">No posts available.</Text>
+        <Text
+          className={`text-center ${
+            isDark ? 'text-gray-500' : 'text-secondary'
+          }`}>
+          No posts available.
+        </Text>
       )}
     </View>
   );
