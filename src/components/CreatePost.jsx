@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -19,8 +19,10 @@ const PostSchema = Yup.object().shape({
   image: Yup.string(),
 });
 
-export default function CreatePost() {
+export default function CreatePost({isDark}) {
   const [selectedImage, setSelectedImage] = useState(null);
+  const inputRef = useRef(null);
+  const user = auth().currentUser;
 
   const upload = <Icon name="images" size={42} color="gray" />;
   const camera = <Icon name="camera" size={45} color="gray" />;
@@ -60,8 +62,11 @@ export default function CreatePost() {
   };
 
   // Function to submit post data
-  const handlePostSubmit = async values => {
-    const user = auth().currentUser;
+  const handlePostSubmit = async (values, {resetForm}) => {
+    if (!values.title && !values.image) {
+      inputRef.current.focus();
+      return;
+    }
 
     if (user) {
       const postData = {
@@ -89,18 +94,16 @@ export default function CreatePost() {
       initialValues={{title: '', image: ''}}
       validationSchema={PostSchema}
       onSubmit={handlePostSubmit}>
-      {({handleChange, handleSubmit, setFieldValue}) => (
+      {({handleChange, handleSubmit, setFieldValue, values}) => (
         <View className="mx-6 mt-6">
-          <Text className="text-3xl font-bold text-secondary text-center mb-4">
-            Create New Post
-          </Text>
-
           {/* Title Input */}
           <TextInput
+            value={values.title}
             className="border border-secondary rounded-md text-lg p-4 mb-2 text-secondary"
             placeholder="What's on your mind?"
             onChangeText={handleChange('title')}
             style={{color: '#1F2937'}}
+            ref={inputRef}
           />
 
           {/* Camera and Image Picker Buttons */}

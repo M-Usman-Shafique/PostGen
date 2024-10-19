@@ -20,7 +20,7 @@ export default function DrawerMenu() {
         },
         headerTitleStyle: {
           fontSize: 24,
-          fontWeight: 'semibold',
+          fontWeight: 'bold',
         },
         headerTitleAlign: 'center',
         headerLeft: () => (
@@ -45,7 +45,7 @@ export default function DrawerMenu() {
         drawerActiveTintColor: isDark ? 'white' : 'black',
       })}>
       <Drawer.Screen
-        name="Home"
+        name="Create New Post"
         component={Home}
         options={{
           drawerIcon: () => (
