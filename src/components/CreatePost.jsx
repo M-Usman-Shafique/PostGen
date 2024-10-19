@@ -13,13 +13,14 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {addPostData} from '../services/firestore';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const PostSchema = Yup.object().shape({
   title: Yup.string(),
   image: Yup.string(),
 });
 
-export default function CreatePost({isDark}) {
+export default function CreatePost({isDark, onAddPost}) {
   const [selectedImage, setSelectedImage] = useState(null);
   const inputRef = useRef(null);
   const user = auth().currentUser;
@@ -76,11 +77,16 @@ export default function CreatePost({isDark}) {
         username: user.displayName || 'Anonymous',
         title: trimmedTitle,
         image: values.image,
-        createdAt: new Date(),
+        createdAt: firestore.FieldValue.serverTimestamp(),
       };
 
       try {
-        await addPostData(postData);
+        const newPostId = await addPostData(postData);
+        const newPost = {
+          ...postData,
+          id: newPostId,
+        };
+        onAddPost(newPost);
         resetForm();
         setSelectedImage(null);
       } catch (error) {

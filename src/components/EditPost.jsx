@@ -73,7 +73,7 @@ export default function EditPost({
       return;
     }
 
-    const updatedData = {trimmedTitle, image: selectedImage};
+    const updatedData = {title: trimmedTitle, image: selectedImage};
     try {
       await updatePost(postId, updatedData);
       onUpdate();

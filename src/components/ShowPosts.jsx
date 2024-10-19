@@ -1,21 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, FlatList, Pressable, Alert} from 'react-native';
 import {deletePost, getPosts} from '../services/firestore';
-import Avatar from '../images/emoji.png';
+import Avatar from '../images/emoji.jpg';
 import {multiFormatDate} from '../services/formatDate';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icony from 'react-native-vector-icons/FontAwesome6';
 import Icono from 'react-native-vector-icons/Ionicons';
-import {useDarkModeContext} from '../hooks/useDarkModeContext';
 import auth from '@react-native-firebase/auth';
 import EditPost from './EditPost';
 
-export default function ShowPosts() {
-  const [posts, setPosts] = useState([]);
+export default function ShowPosts({isDark, posts, setPosts}) {
   const [editingPostId, setEditingPostId] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(null);
-  const {isDark} = useDarkModeContext();
   const user = auth().currentUser;
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const fetchedPosts = await getPosts();
+      setPosts(fetchedPosts);
+    };
+    fetchPosts();
+  }, [setPosts]);
 
   const dots = (
     <Icon
@@ -64,14 +69,6 @@ export default function ShowPosts() {
     ]);
   };
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const fetchedPosts = await getPosts();
-      setPosts(fetchedPosts);
-    };
-    fetchPosts();
-  }, []);
-
   const handleUpdate = () => {
     setEditingPostId(null);
     const fetchPosts = async () => {
@@ -82,6 +79,11 @@ export default function ShowPosts() {
   };
 
   const renderPostCard = ({item}) => {
+    const createdAtDate =
+      item.createdAt && item.createdAt.toDate
+        ? item.createdAt.toDate()
+        : new Date();
+
     return (
       <View
         className={`shadow-2xl rounded-lg p-4 mb-4 ${
@@ -102,7 +104,7 @@ export default function ShowPosts() {
                 {item.username || 'Anonymous'}
               </Text>
               <Text className="text-gray-500 text-xs">
-                {multiFormatDate(item.createdAt.toDate())}
+                {multiFormatDate(createdAtDate)}
               </Text>
             </View>
           </View>
