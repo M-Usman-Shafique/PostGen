@@ -13,7 +13,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {addPostData} from '../services/firestore';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import {serverTimestamp} from '@react-native-firebase/firestore';
 
 const PostSchema = Yup.object().shape({
   title: Yup.string(),
@@ -77,7 +77,7 @@ export default function CreatePost({isDark, onAddPost}) {
         username: user.displayName || 'Anonymous',
         title: trimmedTitle,
         image: values.image,
-        createdAt: firestore.FieldValue.serverTimestamp(),
+        createdAt: serverTimestamp(),
       };
 
       try {

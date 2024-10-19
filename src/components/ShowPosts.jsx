@@ -79,11 +79,13 @@ export default function ShowPosts({isDark, posts, setPosts}) {
   };
 
   const renderPostCard = ({item}) => {
-    const createdAtDate =
-      item.createdAt && item.createdAt.toDate
-        ? item.createdAt.toDate()
-        : new Date();
+    // const postDate = item.createdAt.toLocaleString();
 
+    let postDate = 'Loading...';
+
+    if (item.createdAt) {
+      postDate = new Date(item.createdAt).toLocaleString();
+    }
     return (
       <View
         className={`shadow-2xl rounded-lg p-4 mb-4 ${
@@ -103,9 +105,7 @@ export default function ShowPosts({isDark, posts, setPosts}) {
                 }`}>
                 {item.username || 'Anonymous'}
               </Text>
-              <Text className="text-gray-500 text-xs">
-                {multiFormatDate(createdAtDate)}
-              </Text>
+              <Text className="text-gray-500 text-xs">{postDate}</Text>
             </View>
           </View>
           {user?.uid === item.userId && editingPostId !== item.id && (
