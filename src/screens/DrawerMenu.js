@@ -35,7 +35,7 @@ export default function DrawerMenu() {
         ),
         headerTintColor: isDark ? '#877EFF' : '#1F2937',
         drawerStyle: {
-          backgroundColor: isDark ? '#000000' : '#D1D5DB',
+          backgroundColor: isDark ? '#101012' : '#D1D5DB',
         },
         drawerLabelStyle: {
           color: isDark ? '#877EFF' : '#1F2937',
