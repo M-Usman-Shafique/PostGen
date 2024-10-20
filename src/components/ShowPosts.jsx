@@ -12,16 +12,10 @@ import {formatDate} from '../hooks/formatDate';
 export default function ShowPosts({isDark}) {
   const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
-  const [dropdownVisible, setDropdownVisible] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
   const user = auth().currentUser;
 
-  const dots = (
-    <Icon
-      name="dots-horizontal"
-      size={30}
-      color={isDark ? 'dimgray' : 'gray'}
-    />
-  );
+  const dots = <Icon name="dots-horizontal" size={30} color="dimgray" />;
   const edit = (
     <Icony
       name="pen-to-square"
@@ -32,20 +26,20 @@ export default function ShowPosts({isDark}) {
   const del = <Icono name="trash-outline" size={24} color="#C53030" />;
 
   const handleDropdownToggle = index => {
-    setDropdownVisible(prev => (prev === index ? null : index));
+    setDropdownOpen(prev => (prev === index ? null : index));
   };
 
   const handleEdit = postId => {
     setEditingPostId(postId);
-    setDropdownVisible(null);
+    setDropdownOpen(null);
   };
 
   const handleDelete = async postId => {
-    setDropdownVisible(null);
+    setDropdownOpen(null);
     Alert.alert('Delete Post', 'Are you sure you want to delete this post?', [
       {
         text: 'Cancel',
-        onPress: () => setDropdownVisible(null),
+        onPress: () => setDropdownOpen(null),
         style: 'cancel',
       },
       {
@@ -76,7 +70,7 @@ export default function ShowPosts({isDark}) {
     return (
       <View
         className={`shadow-2xl rounded-lg p-4 mb-4 ${
-          isDark ? 'bg-darkAccent' : 'bg-gray-200'
+          isDark ? 'bg-darkAccent' : 'bg-[#c3c8d0]'
         }`}>
         {/* Post Card */}
         <View className="flex-row justify-between mb-2 -z-10">
@@ -92,7 +86,7 @@ export default function ShowPosts({isDark}) {
                 }`}>
                 {item.username || 'Anonymous'}
               </Text>
-              <Text className="text-gray-500 text-xs">
+              <Text className="text-gray-600 text-xs">
                 {formatDate(item.createdAt)}
               </Text>
             </View>
@@ -105,21 +99,21 @@ export default function ShowPosts({isDark}) {
         </View>
 
         {/* Dropdown Menu */}
-        {dropdownVisible === item.id && (
+        {dropdownOpen === item.id && (
           <View
             className={`absolute right-4 top-10 z-50 shadow-xl rounded-md border py-2 w-1/2 ${
               isDark
                 ? 'bg-darkAccent border-gray-700'
-                : 'border-gray-400 bg-gray-200'
+                : 'border-gray-400 bg-[#c3c8d0]'
             }`}>
             <Pressable
               onPress={() => handleEdit(item.id)}
-              className={`flex-row items-center py-2 px-3 border-b ${
+              className={`flex-row items-center pt-2 pb-3 px-3 border-b ${
                 isDark ? 'border-gray-700' : 'border-gray-400'
               }`}>
               {edit}
               <Text
-                className={`px-2 text-lg ${
+                className={`px-2 text-xl ${
                   isDark ? 'text-darkSecondary' : 'text-gray-900'
                 }`}>
                 Edit
@@ -127,9 +121,9 @@ export default function ShowPosts({isDark}) {
             </Pressable>
             <Pressable
               onPress={() => handleDelete(item.id)}
-              className="flex-row items-center py-2 px-2">
+              className="flex-row items-center pt-3 pb-2 px-2">
               {del}
-              <Text className={`px-1 text-lg text-red-700`}>Delete</Text>
+              <Text className={`px-1 text-xl text-red-700`}>Delete</Text>
             </Pressable>
           </View>
         )}

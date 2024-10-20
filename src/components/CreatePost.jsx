@@ -28,7 +28,11 @@ export default function CreatePost({isDark}) {
   const upload = <Icon name="images" size={42} color="gray" />;
   const camera = <Icon name="camera" size={45} color="gray" />;
 
-  const handleCameraLaunch = setFieldValue => {
+  const handleCameraLaunch = async setFieldValue => {
+    // let permission = await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
+    // console.log('permision: ', permission);
+
+    // if (permission == RESULTS.GRANTED) {
     const options = {
       mediaType: 'photo',
     };
@@ -39,6 +43,7 @@ export default function CreatePost({isDark}) {
         setFieldValue('image', imageUri);
       }
     });
+    // }
   };
 
   const openImagePicker = setFieldValue => {

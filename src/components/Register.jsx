@@ -77,10 +77,10 @@ export default function Register({isDark}) {
             <>
               {/* Username Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                className={`p-4 mb-4 w-full rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
+                    : 'border border-gray-600 focus:border-gray-700 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Username"
@@ -89,14 +89,19 @@ export default function Register({isDark}) {
                 onBlur={handleBlur('username')}
               />
               {touched.username && errors.username && (
-                <Text className="text-red-500 text-sm">{errors.username}</Text>
+                <Text
+                  className={`mb-4 -mt-4 text-sm ${
+                    isDark ? 'text-red-500' : 'text-red-600'
+                  }`}>
+                  {errors.username}
+                </Text>
               )}
               {/* Email Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                className={`p-4 mb-4 w-full rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
+                    : 'border border-gray-600 focus:border-gray-700 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Email"
@@ -107,15 +112,20 @@ export default function Register({isDark}) {
                 autoCapitalize="none"
               />
               {touched.email && errors.email && (
-                <Text className="text-red-500 text-sm">{errors.email}</Text>
+                <Text
+                  className={`mb-4 -mt-4 text-sm ${
+                    isDark ? 'text-red-500' : 'text-red-600'
+                  }`}>
+                  {errors.email}
+                </Text>
               )}
 
               {/* Password Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                className={`p-4 mb-4 w-full rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
+                    : 'border border-gray-600 focus:border-gray-700 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Password"
@@ -125,15 +135,20 @@ export default function Register({isDark}) {
                 secureTextEntry
               />
               {touched.password && errors.password && (
-                <Text className="text-red-500 text-sm">{errors.password}</Text>
+                <Text
+                  className={`mb-4 -mt-4 text-sm ${
+                    isDark ? 'text-red-500' : 'text-red-600'
+                  }`}>
+                  {errors.password}
+                </Text>
               )}
 
               {/* Confirm Password Input */}
               <TextInput
-                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                className={`p-4 mb-4 w-full rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
-                    : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
+                    : 'border border-gray-600 focus:border-gray-700 text-darkPrimary'
                 }`}
                 placeholderTextColor={isDark ? '#718096' : '#4B5563'}
                 placeholder="Confirm Password"
@@ -143,7 +158,10 @@ export default function Register({isDark}) {
                 secureTextEntry
               />
               {touched.confirmPassword && errors.confirmPassword && (
-                <Text className="text-red-500 text-sm">
+                <Text
+                  className={`mb-4 -mt-4 text-sm ${
+                    isDark ? 'text-red-500' : 'text-red-600'
+                  }`}>
                   {errors.confirmPassword}
                 </Text>
               )}

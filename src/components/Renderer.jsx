@@ -34,10 +34,6 @@ export default function Renderer({navigation}) {
 
   return (
     <>
-      {/* <StatusBar
-        backgroundColor={isDark ? 'black' : '#D1D5DB'}
-        barStyle={isDark ? 'light-content' : 'dark-content'}
-      /> */}
       <View
         className={`flex items-end justify-center ${
           isDark ? 'bg-darkPrimary' : 'bg-primary'

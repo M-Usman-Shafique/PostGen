@@ -57,7 +57,7 @@ export default function EditPost({
     });
   };
 
-  const handleRemoveImg = () => {
+  const handleRemovePreview = () => {
     setSelectedImage(null);
   };
 
@@ -97,7 +97,7 @@ export default function EditPost({
             resizeMode="cover"
           />
           <Pressable
-            onPress={handleRemoveImg}
+            onPress={handleRemovePreview}
             className="absolute top-1 right-2 bg-gray-600 px-2 py-[3px] rounded-full">
             <Text className="text-white text-xl">✕</Text>
           </Pressable>

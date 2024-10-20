@@ -77,7 +77,7 @@ export default function Login({isDark, navigation}) {
               {/* Email Input */}
               <TextInput
                 placeholder="Email"
-                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                className={`p-4 mb-4 w-full rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
                     : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
@@ -90,13 +90,15 @@ export default function Login({isDark, navigation}) {
                 autoCapitalize="none"
               />
               {touched.email && errors.email && (
-                <Text className="text-red-500 text-sm">{errors.email}</Text>
+                <Text className="mb-4 -mt-4 text-red-500 text-sm">
+                  {errors.email}
+                </Text>
               )}
 
               {/* Password Input */}
               <TextInput
                 placeholder="Password"
-                className={`p-4 w-full mb-4 rounded-lg text-lg ${
+                className={`p-4 mb-4 w-full rounded-lg text-lg ${
                   isDark
                     ? 'border-none focus:border-none bg-darkAccent text-white'
                     : 'border border-gray-600 focus:border-gray-500 text-darkPrimary'
@@ -108,7 +110,9 @@ export default function Login({isDark, navigation}) {
                 secureTextEntry
               />
               {touched.password && errors.password && (
-                <Text className="text-red-500 text-sm">{errors.password}</Text>
+                <Text className="mb-4 -mt-4 text-red-500 text-sm">
+                  {errors.password}
+                </Text>
               )}
 
               {/* Login Button */}
