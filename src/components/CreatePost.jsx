@@ -22,6 +22,7 @@ const PostSchema = Yup.object().shape({
 
 export default function CreatePost({isDark}) {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isTitleFocused, setIsTitleFocused] = useState(false); // State to track focus
   const inputRef = useRef(null);
   const user = auth().currentUser;
 
@@ -98,60 +99,70 @@ export default function CreatePost({isDark}) {
           {/* Title Input */}
           <TextInput
             value={values.title}
+            onFocus={() => setIsTitleFocused(true)}
+            onBlur={() => setIsTitleFocused(false)}
+            onChangeText={handleChange('title')}
+            placeholder="What's on your mind?"
+            placeholderTextColor={isDark ? '#718096' : '#4B5563'}
             className={`rounded-md text-lg p-4 mb-2 border ${
               isDark
                 ? 'border-none bg-darkAccent text-gray-200'
                 : 'border-secondary text-gray-950'
             }`}
-            placeholderTextColor={isDark ? '#718096' : '#4B5563'}
-            placeholder="What's on your mind?"
-            onChangeText={handleChange('title')}
             ref={inputRef}
           />
 
-          {/* Camera and Image Picker Buttons */}
-          <View className={`flex-row gap-2`}>
-            <Pressable
-              onPress={() => handleCameraLaunch(setFieldValue)}
-              className={`flex-1 justify-center items-center p-4 rounded-md mb-2 h-32 ${
-                isDark && 'bg-darkAccent'
-              }`}>
-              {camera}
-              <Text
-                className={`-mb-1 mt-2 text-base ${isDark && 'text-gray-500'}`}>
-                Take a snapshot
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => openImagePicker(setFieldValue)}
-              className={`flex-1 justify-center items-center p-4 rounded-md h-32 ${
-                isDark && 'bg-darkAccent'
-              }`}>
-              {upload}
-              <Text
-                className={`-mb-2 mt-2 text-base ${isDark && 'text-gray-500'}`}>
-                Select an image
-              </Text>
-            </Pressable>
-          </View>
-          {/* Image Preview */}
-          {selectedImage && (
-            <Image
-              source={{uri: selectedImage}}
-              className="w-full h-40 mb-4 rounded-md"
-            />
-          )}
+          {isTitleFocused && (
+            <>
+              {/* Camera and Image Picker */}
+              <View className={`flex-row gap-2`}>
+                <Pressable
+                  onPress={() => handleCameraLaunch(setFieldValue)}
+                  className={`flex-1 justify-center items-center p-4 rounded-md mb-2 h-32 ${
+                    isDark && 'bg-darkAccent'
+                  }`}>
+                  {camera}
+                  <Text
+                    className={`-mb-1 mt-2 text-base ${
+                      isDark && 'text-gray-500'
+                    }`}>
+                    Take a photo
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => openImagePicker(setFieldValue)}
+                  className={`flex-1 justify-center items-center p-4 rounded-md h-32 ${
+                    isDark && 'bg-darkAccent'
+                  }`}>
+                  {upload}
+                  <Text
+                    className={`-mb-2 mt-2 text-base ${
+                      isDark && 'text-gray-500'
+                    }`}>
+                    Select a photo
+                  </Text>
+                </Pressable>
+              </View>
+              {/* Image Preview */}
+              {selectedImage && (
+                <Image
+                  source={{uri: selectedImage}}
+                  className="w-full h-40 mb-4 rounded-md"
+                />
+              )}
 
-          {/* Create Post Button */}
-          <TouchableOpacity
-            onPress={handleSubmit}
-            className={`p-3 rounded-md ${
-              isDark ? 'bg-darkSecondary' : 'bg-secondary'
-            }`}>
-            <Text className="text-white text-center text-base">
-              Create Post
-            </Text>
-          </TouchableOpacity>
+              {/* Create Post Button */}
+              <TouchableOpacity
+                onPress={handleSubmit}
+                className={`p-3 rounded-md ${
+                  isDark ? 'bg-darkSecondary' : 'bg-secondary'
+                }`}>
+                <Text className="text-white text-center text-base">
+                  Create Post
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       )}
     </Formik>
