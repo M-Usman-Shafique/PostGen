@@ -69,6 +69,7 @@ export default function CreatePost({isDark, onAddPost}) {
         title: trimmedTitle,
         image: values.image,
         createdAt: serverTimestamp(),
+        fallbackCreatedAt: Date.now(),
       };
 
       try {

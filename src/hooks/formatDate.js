@@ -1,6 +1,13 @@
 export const formatDate = timestamp => {
+  // Handle Firestore's `Timestamp` object or a fallback client-side timestamp
+  const postDate = timestamp instanceof Date ? timestamp : new Date(timestamp);
+
+  // Ensure the date is valid
+  if (isNaN(postDate.getTime())) {
+    return 'Invalid date';
+  }
+
   const now = new Date();
-  const postDate = new Date(timestamp);
   const diffInSeconds = Math.floor((now - postDate) / 1000);
 
   if (diffInSeconds < 60) {

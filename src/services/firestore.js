@@ -20,7 +20,7 @@ export const getPosts = async () => {
       return {
         id: doc.id,
         ...data,
-        createdAt: data.createdAt ? data.createdAt.toDate() : new Date(), // Ensure createdAt is converted or set
+        createdAt: data.createdAt ? data.createdAt.toDate() : new Date(),
       };
     });
 
