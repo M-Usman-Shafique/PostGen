@@ -3,30 +3,27 @@ import firestore from '@react-native-firebase/firestore';
 
 export const addPostData = async postData => {
   try {
-    const docRef = await firestore().collection('posts').add(postData);
-    console.log('Post created successfully!');
-    return docRef.id;
+    await firestore().collection('posts').add(postData);
+    console.log('Post created Successfully!');
   } catch (error) {
     console.error('Error adding post data:', error);
-    throw error;
   }
 };
 
-export const getPosts = async () => {
+export const getPosts = setPosts => {
   try {
-    const postsSnapshot = await firestore().collection('posts').get();
-    const posts = postsSnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt ? data.createdAt.toDate() : new Date(),
-      };
-    });
-
-    return posts;
+    return firestore()
+      .collection('posts')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {
+        const posts = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPosts(posts);
+      });
   } catch (error) {
-    console.error('Error fetching data: ', error);
+    console.error('Error fetching real-time data: ', error);
   }
 };
 

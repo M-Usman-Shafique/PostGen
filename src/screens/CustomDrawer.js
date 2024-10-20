@@ -83,8 +83,8 @@ export default function CustomDrawer(props) {
         </View>
       )}
 
-      {/* Display "Home" via DrawerMenu*/}
-      <DrawerItemList {...props} />
+      {/* Display "Create New Post" from DrawerMenu*/}
+      {/* <DrawerItemList {...props} /> */}
 
       {/* Display Current Mode */}
       <View className="flex-row items-center p-4">
@@ -104,7 +104,6 @@ export default function CustomDrawer(props) {
           onToggle={handleDarkMode}
         />
       </View>
-
       <DrawerItem
         label="Logout"
         onPress={handleLogout}

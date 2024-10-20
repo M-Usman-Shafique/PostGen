@@ -1,10 +1,9 @@
 export const formatDate = timestamp => {
-  const postDate = timestamp instanceof Date ? timestamp : new Date(timestamp);
+  if (!timestamp) return 'Unknown date';
 
-  if (isNaN(postDate.getTime())) {
-    return 'Invalid date';
-  }
-
+  const postDate = new Date(
+    timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1000000),
+  );
   const now = new Date();
   const diffInSeconds = Math.floor((now - postDate) / 1000);
 

@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import {loginUser} from '../services/auth';
 import {useNotifications} from 'react-native-notificated';
 
-// Validation schema using Yup
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
@@ -61,8 +60,6 @@ export default function Login({isDark, navigation}) {
           } mb-8 text-center`}>
           Login
         </Text>
-
-        {/* Formik Form */}
         <Formik
           initialValues={{email: '', password: ''}}
           validationSchema={validationSchema}

@@ -9,18 +9,11 @@ import auth from '@react-native-firebase/auth';
 import EditPost from './EditPost';
 import {formatDate} from '../hooks/formatDate';
 
-export default function ShowPosts({isDark, posts, setPosts}) {
+export default function ShowPosts({isDark}) {
+  const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
-  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [dropdownVisible, setDropdownVisible] = useState(null);
   const user = auth().currentUser;
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const fetchedPosts = await getPosts();
-      setPosts(fetchedPosts);
-    };
-    fetchPosts();
-  }, [setPosts]);
 
   const dots = (
     <Icon
@@ -39,20 +32,20 @@ export default function ShowPosts({isDark, posts, setPosts}) {
   const del = <Icono name="trash-outline" size={24} color="#C53030" />;
 
   const handleDropdownToggle = index => {
-    setDropdownOpen(prev => (prev === index ? null : index));
+    setDropdownVisible(prev => (prev === index ? null : index));
   };
 
   const handleEdit = postId => {
     setEditingPostId(postId);
-    setDropdownOpen(null);
+    setDropdownVisible(null);
   };
 
   const handleDelete = async postId => {
-    setDropdownOpen(null);
+    setDropdownVisible(null);
     Alert.alert('Delete Post', 'Are you sure you want to delete this post?', [
       {
         text: 'Cancel',
-        onPress: () => setDropdownOpen(null),
+        onPress: () => setDropdownVisible(null),
         style: 'cancel',
       },
       {
@@ -69,31 +62,24 @@ export default function ShowPosts({isDark, posts, setPosts}) {
     ]);
   };
 
+  useEffect(() => {
+    const unsubscribe = getPosts(setPosts);
+
+    return () => unsubscribe && unsubscribe();
+  }, []);
+
   const handleUpdate = () => {
     setEditingPostId(null);
-    const fetchPosts = async () => {
-      const updatedPosts = await getPosts();
-      setPosts(updatedPosts);
-    };
-    fetchPosts();
   };
 
   const renderPostCard = ({item}) => {
-    let postDate = 'Loading...';
-
-    if (item.createdAt?.seconds) {
-      postDate = formatDate(new Date(item.createdAt.seconds * 1000));
-    } else if (item.fallbackCreatedAt) {
-      postDate = formatDate(item.fallbackCreatedAt);
-    }
-
     return (
-      // Post Card
       <View
-        className={`-z-50 shadow-2xl rounded-lg p-4 mb-4 ${
+        className={`shadow-2xl rounded-lg p-4 mb-4 ${
           isDark ? 'bg-darkAccent' : 'bg-gray-200'
         }`}>
-        <View className="flex-row justify-between mb-2">
+        {/* Post Card */}
+        <View className="flex-row justify-between mb-2 -z-10">
           <View className="flex-row">
             <Image
               source={item.userAvatar ? {uri: item.userAvatar} : Avatar}
@@ -106,7 +92,9 @@ export default function ShowPosts({isDark, posts, setPosts}) {
                 }`}>
                 {item.username || 'Anonymous'}
               </Text>
-              <Text className="text-gray-500 text-xs">{postDate}</Text>
+              <Text className="text-gray-500 text-xs">
+                {formatDate(item.createdAt)}
+              </Text>
             </View>
           </View>
           {user?.uid === item.userId && editingPostId !== item.id && (
@@ -117,7 +105,7 @@ export default function ShowPosts({isDark, posts, setPosts}) {
         </View>
 
         {/* Dropdown Menu */}
-        {dropdownOpen === item.id && (
+        {dropdownVisible === item.id && (
           <View
             className={`absolute right-4 top-10 z-50 shadow-xl rounded-md border py-2 w-1/2 ${
               isDark
@@ -192,7 +180,7 @@ export default function ShowPosts({isDark, posts, setPosts}) {
           className={`text-center ${
             isDark ? 'text-gray-500' : 'text-secondary'
           }`}>
-          No posts available
+          No posts available.
         </Text>
       )}
     </View>

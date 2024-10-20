@@ -34,6 +34,10 @@ export default function Renderer({navigation}) {
 
   return (
     <>
+      {/* <StatusBar
+        backgroundColor={isDark ? 'black' : '#D1D5DB'}
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+      /> */}
       <View
         className={`flex items-end justify-center ${
           isDark ? 'bg-darkPrimary' : 'bg-primary'
@@ -79,7 +83,7 @@ export default function Renderer({navigation}) {
             }}
           />
 
-          {/* Sign-up Renderer */}
+          {/* Sign-up Button */}
           <Pressable
             className="flex-1 py-3 rounded-full"
             onPress={() => setIsLogin(false)}>
@@ -97,7 +101,7 @@ export default function Renderer({navigation}) {
             </Text>
           </Pressable>
 
-          {/* Login Renderer */}
+          {/* Login Button */}
           <Pressable
             className="flex-1 py-3 rounded-full"
             onPress={() => setIsLogin(true)}>
