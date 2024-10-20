@@ -104,10 +104,10 @@ export default function CreatePost({isDark}) {
             onChangeText={handleChange('title')}
             placeholder="What's on your mind?"
             placeholderTextColor={isDark ? '#718096' : '#4B5563'}
-            className={`rounded-md text-lg p-4 mb-2 border ${
+            className={`text-lg p-4 mb-2 border ${
               isDark
-                ? 'border-none bg-darkAccent text-gray-200'
-                : 'border-secondary text-gray-950'
+                ? 'rounded-lg border-none bg-darkAccent text-gray-200'
+                : 'rounded-md border-secondary text-gray-950'
             }`}
             ref={inputRef}
           />

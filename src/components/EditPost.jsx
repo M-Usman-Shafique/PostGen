@@ -80,7 +80,9 @@ export default function EditPost({
     <>
       {/* Title Input */}
       <TextInput
-        className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}
+        className={`text-lg p-3 mb-3 border rounded-lg ${
+          isDark ? 'text-white border-gray-700' : 'text-black border-gray-400'
+        }`}
         value={title}
         onChangeText={setTitle}
         placeholder="What's on your mind?"
