@@ -81,9 +81,7 @@ export default function ShowPosts({isDark, posts, setPosts}) {
   const renderPostCard = ({item}) => {
     let postDate = 'Loading...';
 
-    // Check if createdAt is a valid timestamp; if not, use fallbackCreatedAt
     if (item.createdAt?.seconds) {
-      // Firestore timestamps have a `seconds` field
       postDate = formatDate(new Date(item.createdAt.seconds * 1000));
     } else if (item.fallbackCreatedAt) {
       postDate = formatDate(item.fallbackCreatedAt);
