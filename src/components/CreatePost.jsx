@@ -22,7 +22,7 @@ const PostSchema = Yup.object().shape({
 
 export default function CreatePost({isDark}) {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isTitleFocused, setIsTitleFocused] = useState(false); // State to track focus
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
   const inputRef = useRef(null);
   const user = auth().currentUser;
 
@@ -95,7 +95,7 @@ export default function CreatePost({isDark}) {
       validationSchema={PostSchema}
       onSubmit={handlePostSubmit}>
       {({handleChange, handleSubmit, setFieldValue, values}) => (
-        <View className="mx-6 mt-4">
+        <View className={`mx-6 ${isTitleFocused ? 'my-4' : 'my-0'}`}>
           {/* Title Input */}
           <TextInput
             value={values.title}

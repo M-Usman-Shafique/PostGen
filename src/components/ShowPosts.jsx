@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, FlatList, Pressable, Alert} from 'react-native';
+import {View, Text, Image, FlatList, Pressable} from 'react-native';
 import {deletePost, getPosts} from '../services/firestore';
 import Avatar from '../images/emoji.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,11 +8,14 @@ import Icono from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import EditPost from './EditPost';
 import {formatDate} from '../hooks/formatDate';
+import CustomModal from './CustomModal';
 
 export default function ShowPosts({isDark}) {
   const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const user = auth().currentUser;
 
   const dots = <Icon name="dots-horizontal" size={30} color="dimgray" />;
@@ -34,26 +37,22 @@ export default function ShowPosts({isDark}) {
     setDropdownOpen(null);
   };
 
-  const handleDelete = async postId => {
+  const handleDelete = postId => {
+    setSelectedPostId(postId);
+    setModalVisible(true);
     setDropdownOpen(null);
-    Alert.alert('Delete Post', 'Are you sure you want to delete this post?', [
-      {
-        text: 'Cancel',
-        onPress: () => setDropdownOpen(null),
-        style: 'cancel',
-      },
-      {
-        text: 'Delete',
-        onPress: async () => {
-          try {
-            await deletePost(postId);
-            setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
-          } catch (error) {
-            console.error('Error deleting post:', error);
-          }
-        },
-      },
-    ]);
+  };
+
+  const confirmDelete = async () => {
+    setModalVisible(false);
+    try {
+      await deletePost(selectedPostId);
+      setPosts(prevPosts =>
+        prevPosts.filter(post => post.id !== selectedPostId),
+      );
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
   };
 
   useEffect(() => {
@@ -73,7 +72,7 @@ export default function ShowPosts({isDark}) {
           isDark ? 'bg-darkAccent' : 'bg-[#c3c8d0]'
         }`}>
         {/* Post Card */}
-        <View className="flex-row justify-between mb-2 -z-10">
+        <View className="flex-row justify-between mb-2">
           <View className="flex-row">
             <Image
               source={item.userAvatar ? {uri: item.userAvatar} : Avatar}
@@ -86,7 +85,10 @@ export default function ShowPosts({isDark}) {
                 }`}>
                 {item.username || 'Anonymous'}
               </Text>
-              <Text className="text-gray-600 text-xs">
+              <Text
+                className={`text-xs ${
+                  isDark ? 'text-gray-500' : 'text-gray-700'
+                }`}>
                 {formatDate(item.createdAt)}
               </Text>
             </View>
@@ -177,6 +179,11 @@ export default function ShowPosts({isDark}) {
           No posts available.
         </Text>
       )}
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        confirmDelete={confirmDelete}
+      />
     </View>
   );
 }
