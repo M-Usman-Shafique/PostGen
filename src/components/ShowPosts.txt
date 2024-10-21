@@ -180,15 +180,9 @@ export default function ShowPosts({isDark}) {
         </Text>
       )}
       <CustomModal
-        isDark={isDark}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        iconName="trash-outline"
-        title="Delete Post"
-        description="Are you sure you want to delete this post?"
-        cancelText="CANCEL"
-        confirmText="DELETE"
-        onConfirm={confirmDelete}
+        confirmDelete={confirmDelete}
       />
     </View>
   );
