@@ -29,8 +29,10 @@ export default function ShowPosts({isDark}) {
   const user = auth().currentUser;
 
   useEffect(() => {
-    const unsubscribe = getPosts(setPosts);
-    setLoading(false);
+    const unsubscribe = getPosts(retrievedPosts => {
+      setPosts(retrievedPosts);
+      setLoading(false);
+    });
 
     return () => unsubscribe && unsubscribe();
   }, []);

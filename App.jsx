@@ -19,7 +19,6 @@ export default function App() {
 
     const fallbackTimeout = setTimeout(() => {
       if (initializing) {
-        console.log('Fallback: Setting initializing to false due to timeout');
         setInitializing(false);
       }
     }, 5000);
