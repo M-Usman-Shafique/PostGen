@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {addPostData} from '../services/firestore';
 import auth from '@react-native-firebase/auth';
 import {useNotifications} from 'react-native-notificated';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 const PostSchema = Yup.object().shape({
   title: Yup.string(),
@@ -31,11 +30,7 @@ export default function CreatePost({isDark}) {
   const upload = <Icon name="images" size={42} color="gray" />;
   const camera = <Icon name="camera" size={45} color="gray" />;
 
-  const handleCameraLaunch = async setFieldValue => {
-    // let permission = await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
-    // console.log('permision: ', permission);
-
-    // if (permission == RESULTS.GRANTED) {
+  const handleCameraLaunch = setFieldValue => {
     const options = {
       mediaType: 'photo',
     };
@@ -46,10 +41,9 @@ export default function CreatePost({isDark}) {
         setFieldValue('image', imageUri);
       }
     });
-    // }
   };
 
-  const openImagePicker = setFieldValue => {
+  const openImagePicker = async setFieldValue => {
     const options = {
       mediaType: 'photo',
     };

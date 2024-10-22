@@ -1,14 +1,220 @@
-I'm building a social media app using CLI based React Native and firestore. I used firebase's Email/password auth for user authentication. The app allows users to create, display, edit/update and delete posts. In order to give my my users a real-time experience, I implemented an instant display of posts. As a user added a new post, it instantly starts displaying on the UI. But there's a small issue with this implementation. I'm storing postData in firestore in the following format:
- const postData = {
+I'm building a social media app using CLI based React Native and firestore. The app allows users to create, display, edit/update and delete posts. Users can post text or images and both combine. In order to allow the users to select images from their devices I'm using react-native-image-picker package. Then I enabled the file picking permission by adding following permissions in my AndroidManifest.xml file:
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
+    <application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true">
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
+    </application>
+</manifest>
+
+
+Problem: On clicking the upload icon of my CreatePost component, the image picker opens but no images of my (emulator) device are showing in the picker. It's still enable to acces the files of my android (emulator) device:
+import React, {useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Pressable,
+} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {addPostData} from '../services/firestore';
+import auth from '@react-native-firebase/auth';
+import {useNotifications} from 'react-native-notificated';
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+
+const PostSchema = Yup.object().shape({
+  title: Yup.string(),
+  image: Yup.string(),
+});
+
+export default function CreatePost({isDark}) {
+  const {notify} = useNotifications();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const inputRef = useRef(null);
+  const user = auth().currentUser;
+
+  const upload = <Icon name="images" size={42} color="gray" />;
+  const camera = <Icon name="camera" size={45} color="gray" />;
+
+  const handleCameraLaunch = async setFieldValue => {
+    // let permission = await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
+    // console.log('permision: ', permission);
+
+    // if (permission == RESULTS.GRANTED) {
+    const options = {
+      mediaType: 'photo',
+    };
+    launchCamera(options, response => {
+      if (!response.didCancel && !response.error) {
+        const imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage(imageUri);
+        setFieldValue('image', imageUri);
+      }
+    });
+    // }
+  };
+
+  const openImagePicker = setFieldValue => {
+    const options = {
+      mediaType: 'photo',
+    };
+    launchImageLibrary(options, response => {
+      if (!response.didCancel && !response.error) {
+        const imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage(imageUri);
+        setFieldValue('image', imageUri);
+      }
+    });
+  };
+
+  const handlePostSubmit = async (values, {resetForm}) => {
+    const trimmedTitle = values.title.trim();
+
+    if (!trimmedTitle && !values.image) {
+      inputRef.current.focus();
+      return;
+    }
+
+    if (user) {
+      const postData = {
         userId: user.uid,
         username: user.displayName || 'Anonymous',
         title: trimmedTitle,
         image: values.image,
-        createdAt: serverTimestamp(),
+        createdAt: new Date(),
       };
-When I create/add a new post, the entire post instantly starts displaying on my frontend UI except the date (createdAt). Initially it shows "NaN day ago" instead of actual date. But as I reload the app, the actual date begins to dispaly. To debug this issue I logged the new post data in the console and found the following results before app reload:
-{"createdAt": {"_elements": undefined, "_type": "timestamp"}, "id": "xoEshtvc269KSSl2tOKQ", "image": "", "title": "new one", "userId": "kDUHrcIT1HPSU6v1s7M7YvCpKDy2", "username": "Hafiz"}
-And after app reload I found this:
-{"createdAt": 2024-10-20T02:21:40.100Z, "id": "xoEshtvc269KSSl2tOKQ", "image": "", "title": "new one", "userId": "kDUHrcIT1HPSU6v1s7M7YvCpKDy2", "username": "Hafiz"}
 
-Before reload I'm getting "undefine" instead of actual date and after reload I'm getting the actual date. Why is so? And how to keep the date consistent before and after app reload?
+      try {
+        const postAdded = await addPostData(postData);
+        if (postAdded) {
+          notify('success', {
+            params: {
+              title: 'Success:',
+              description: 'A new post has been created.',
+            },
+          });
+        }
+        resetForm();
+        setSelectedImage(null);
+      } catch (error) {
+        notify('error', {
+          params: {
+            title: 'Error:',
+            description: `${error}`,
+          },
+        });
+        console.error('Error adding post:', error);
+      }
+    } else {
+      console.error('User is not authenticated');
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={{title: '', image: ''}}
+      validationSchema={PostSchema}
+      onSubmit={handlePostSubmit}>
+      {({handleChange, handleSubmit, setFieldValue, values}) => (
+        <View className={`mx-6 ${isTitleFocused ? 'my-4' : 'my-0'}`}>
+          {/* Title Input */}
+          <TextInput
+            value={values.title}
+            onFocus={() => setIsTitleFocused(true)}
+            onBlur={() => setIsTitleFocused(false)}
+            onChangeText={handleChange('title')}
+            placeholder="What's on your mind?"
+            placeholderTextColor={isDark ? '#718096' : '#4B5563'}
+            className={`text-lg p-4 mb-2 border ${
+              isDark
+                ? 'rounded-lg border-none bg-darkAccent text-gray-200'
+                : 'rounded-md border-secondary text-gray-950'
+            }`}
+            ref={inputRef}
+          />
+
+          {isTitleFocused && (
+            <>
+              {/* Camera and Image Picker */}
+              <View className={`flex-row gap-2`}>
+                <Pressable
+                  onPress={() => handleCameraLaunch(setFieldValue)}
+                  className={`flex-1 justify-center items-center p-4 rounded-md mb-2 h-32 ${
+                    isDark && 'bg-darkAccent'
+                  }`}>
+                  {camera}
+                  <Text
+                    className={`-mb-1 mt-2 text-base ${
+                      isDark && 'text-gray-500'
+                    }`}>
+                    Take a photo
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => openImagePicker(setFieldValue)}
+                  className={`flex-1 justify-center items-center p-4 rounded-md h-32 ${
+                    isDark && 'bg-darkAccent'
+                  }`}>
+                  {upload}
+                  <Text
+                    className={`-mb-2 mt-2 text-base ${
+                      isDark && 'text-gray-500'
+                    }`}>
+                    Select a photo
+                  </Text>
+                </Pressable>
+              </View>
+              {/* Image Preview */}
+              {selectedImage && (
+                <Image
+                  source={{uri: selectedImage}}
+                  className="w-full h-40 mb-4 rounded-md"
+                />
+              )}
+
+              {/* Create Post Button */}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={handleSubmit}
+                className={`p-3 rounded-md ${
+                  isDark ? 'bg-darkSecondary' : 'bg-secondary'
+                }`}>
+                <Text className="text-white text-center text-base">
+                  Create Post
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
+      )}
+    </Formik>
+  );
+}
