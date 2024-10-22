@@ -15,8 +15,6 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log('Setting up Firebase auth state change listener');
-
     const subscriber = auth().onAuthStateChanged(handleAuthStateChanged);
 
     const fallbackTimeout = setTimeout(() => {
@@ -27,31 +25,25 @@ export default function App() {
     }, 5000);
 
     return () => {
-      console.log('Cleaning up Firebase auth state change listener');
       subscriber();
       clearTimeout(fallbackTimeout);
     };
   }, []);
 
   function handleAuthStateChanged(user) {
-    console.log('Auth state changed:', user);
     setUser(user);
     if (initializing) {
-      console.log('Setting initializing to false');
       setInitializing(false);
     }
   }
 
   if (initializing) {
-    console.log('App is initializing, showing ActivityIndicator');
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" />
       </View>
     );
   }
-
-  console.log('App initialized, rendering main components');
 
   return (
     <>
