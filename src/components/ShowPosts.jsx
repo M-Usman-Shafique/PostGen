@@ -68,7 +68,7 @@ export default function ShowPosts({isDark}) {
         notify('success', {
           params: {
             title: 'Success:',
-            description: 'Post has been deleted.',
+            description: 'A post has been deleted.',
           },
         });
       }

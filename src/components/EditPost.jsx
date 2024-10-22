@@ -76,7 +76,7 @@ export default function EditPost({
         notify('success', {
           params: {
             title: 'Success:',
-            description: 'Post has been updated.',
+            description: 'A post has been updated.',
           },
         });
       }
