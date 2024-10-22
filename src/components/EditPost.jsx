@@ -70,13 +70,13 @@ export default function EditPost({
 
     const updatedData = {title: trimmedTitle, image: selectedImage};
     try {
-      const postUpdated = await updatePost(postId, updatedData);
+      const result = await updatePost(postId, updatedData);
       onUpdate();
-      if (postUpdated) {
+      if (result.success) {
         notify('success', {
           params: {
             title: 'Success:',
-            description: 'You just updated a post.',
+            description: 'Post has been updated.',
           },
         });
       }

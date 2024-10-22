@@ -85,13 +85,12 @@ export default function CreatePost({isDark}) {
           notify('success', {
             params: {
               title: 'Success:',
-              description: 'You just created a new post.',
+              description: 'A new post has been created.',
             },
           });
         }
         resetForm();
         setSelectedImage(null);
-        setIsTitleFocused(null);
       } catch (error) {
         notify('error', {
           params: {

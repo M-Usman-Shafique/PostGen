@@ -63,12 +63,12 @@ export default function ShowPosts({isDark}) {
   const confirmDelete = async () => {
     setModalVisible(false);
     try {
-      const postDeleted = await deletePost(selectedPostId);
-      if (postDeleted) {
+      const result = await deletePost(selectedPostId);
+      if (result.success) {
         notify('success', {
           params: {
             title: 'Success:',
-            description: 'You just deleted a post.',
+            description: 'Post has been deleted.',
           },
         });
       }
