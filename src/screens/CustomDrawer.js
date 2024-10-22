@@ -39,7 +39,7 @@ export default function CustomDrawer(props) {
       await auth().signOut();
       notify('success', {
         params: {
-          title: 'Logout Successfull!',
+          title: 'Logout Successfull',
           description: 'Hope to see you again.',
         },
       });

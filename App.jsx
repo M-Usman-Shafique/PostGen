@@ -14,23 +14,44 @@ export default function App() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    console.log('Setting up Firebase auth state change listener');
+
+    const subscriber = auth().onAuthStateChanged(handleAuthStateChanged);
+
+    const fallbackTimeout = setTimeout(() => {
+      if (initializing) {
+        console.log('Fallback: Setting initializing to false due to timeout');
+        setInitializing(false);
+      }
+    }, 5000);
+
+    return () => {
+      console.log('Cleaning up Firebase auth state change listener');
+      subscriber();
+      clearTimeout(fallbackTimeout);
+    };
   }, []);
 
+  function handleAuthStateChanged(user) {
+    console.log('Auth state changed:', user);
+    setUser(user);
+    if (initializing) {
+      console.log('Setting initializing to false');
+      setInitializing(false);
+    }
+  }
+
   if (initializing) {
+    console.log('App is initializing, showing ActivityIndicator');
     return (
-      <View className="flex-1 justify-center items-center">
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" />
       </View>
     );
   }
+
+  console.log('App initialized, rendering main components');
 
   return (
     <>
