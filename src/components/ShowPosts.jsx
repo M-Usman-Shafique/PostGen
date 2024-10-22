@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, FlatList, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import {deletePost, getPosts} from '../services/firestore';
 import Avatar from '../images/emoji.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,7 +25,15 @@ export default function ShowPosts({isDark}) {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const user = auth().currentUser;
+
+  useEffect(() => {
+    const unsubscribe = getPosts(setPosts);
+    setLoading(false);
+
+    return () => unsubscribe && unsubscribe();
+  }, []);
 
   const dots = <Icon name="dots-horizontal" size={30} color="dimgray" />;
   const edit = (
@@ -67,12 +82,6 @@ export default function ShowPosts({isDark}) {
       console.error('Error deleting post:', error);
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = getPosts(setPosts);
-
-    return () => unsubscribe && unsubscribe();
-  }, []);
 
   const handleUpdate = () => {
     setEditingPostId(null);
@@ -178,7 +187,12 @@ export default function ShowPosts({isDark}) {
 
   return (
     <View className="flex-1 mx-6 mt-6">
-      {posts?.length > 0 ? (
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          color={isDark ? '#877EFF' : '#1A202C'}
+        />
+      ) : posts?.length > 0 ? (
         <FlatList
           data={posts}
           renderItem={renderPostCard}
