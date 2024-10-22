@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {Modal, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CustomModal({
@@ -39,7 +39,8 @@ export default function CustomModal({
             </View>
             <Text className="text-slate-200 text-base">{description}</Text>
             <View className="flex-row gap-2">
-              <Pressable
+              <TouchableOpacity
+                activeOpacity={0.7}
                 className="flex-1 items-center bg-gray-300 rounded-lg px-2 py-2"
                 onPress={() => {
                   setModalVisible(!modalVisible);
@@ -47,14 +48,15 @@ export default function CustomModal({
                 <Text className="text-black text-lg font-semibold">
                   {cancelText}
                 </Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
                 className="flex-1 items-center bg-red-600 rounded-lg px-2 py-2"
                 onPress={onConfirm}>
                 <Text className="text-slate-100 text-lg font-semibold">
                   {confirmText}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

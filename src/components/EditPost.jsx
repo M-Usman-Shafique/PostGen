@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {updatePost} from '../services/firestore';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNotifications} from 'react-native-notificated';
 
 export default function EditPost({
   postId,
@@ -20,6 +20,7 @@ export default function EditPost({
   onUpdate,
   isDark,
 }) {
+  const {notify} = useNotifications();
   const [title, setTitle] = useState(initialTitle);
   const [selectedImage, setSelectedImage] = useState(initialImage);
   const titleInputRef = useRef(null);
@@ -69,9 +70,23 @@ export default function EditPost({
 
     const updatedData = {title: trimmedTitle, image: selectedImage};
     try {
-      await updatePost(postId, updatedData);
+      const postUpdated = await updatePost(postId, updatedData);
       onUpdate();
+      if (postUpdated) {
+        notify('success', {
+          params: {
+            title: 'Success:',
+            description: 'You just updated a post.',
+          },
+        });
+      }
     } catch (error) {
+      notify('error', {
+        params: {
+          title: 'Error:',
+          description: `${error}`,
+        },
+      });
       console.error('Error updating post:', error);
     }
   };
@@ -129,11 +144,13 @@ export default function EditPost({
       {/* Action Buttons */}
       <View className="flex-row gap-2">
         <TouchableOpacity
+          activeOpacity={0.7}
           onPress={onClose}
           className="flex-1 bg-gray-300 p-2 rounded-md">
           <Text className="text-center text-black">Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          activeOpacity={0.7}
           onPress={handleUpdate}
           className={`flex-1 p-2 rounded-md ${
             isDark ? 'bg-darkSecondary text-white' : 'bg-secondary'

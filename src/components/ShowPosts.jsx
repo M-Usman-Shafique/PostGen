@@ -9,8 +9,10 @@ import auth from '@react-native-firebase/auth';
 import EditPost from './EditPost';
 import {formatDate} from '../hooks/formatDate';
 import CustomModal from './CustomModal';
+import {useNotifications} from 'react-native-notificated';
 
 export default function ShowPosts({isDark}) {
+  const {notify} = useNotifications();
   const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(null);
@@ -46,11 +48,22 @@ export default function ShowPosts({isDark}) {
   const confirmDelete = async () => {
     setModalVisible(false);
     try {
-      await deletePost(selectedPostId);
-      setPosts(prevPosts =>
-        prevPosts.filter(post => post.id !== selectedPostId),
-      );
+      const postDeleted = await deletePost(selectedPostId);
+      if (postDeleted) {
+        notify('success', {
+          params: {
+            title: 'Success:',
+            description: 'You just deleted a post.',
+          },
+        });
+      }
     } catch (error) {
+      notify('error', {
+        params: {
+          title: 'Error:',
+          description: `${error}`,
+        },
+      });
       console.error('Error deleting post:', error);
     }
   };
@@ -125,7 +138,7 @@ export default function ShowPosts({isDark}) {
               onPress={() => handleDelete(item.id)}
               className="flex-row items-center pt-3 pb-2 px-2">
               {del}
-              <Text className={`px-1 text-xl text-red-700`}>Delete</Text>
+              <Text className={`px-1 text-xl text-red-600`}>Delete</Text>
             </Pressable>
           </View>
         )}

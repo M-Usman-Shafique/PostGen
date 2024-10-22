@@ -1,4 +1,4 @@
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Keyboard} from 'react-native';
 import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -16,6 +16,7 @@ export default function Login({isDark, navigation}) {
   const {notify} = useNotifications();
 
   const handleLogin = async (values, {setSubmitting, resetForm}) => {
+    Keyboard.dismiss();
     const {email, password} = values;
     try {
       const {emailVerified} = await loginUser(email, password);
@@ -117,6 +118,7 @@ export default function Login({isDark, navigation}) {
 
               {/* Login Button */}
               <TouchableOpacity
+                activeOpacity={0.7}
                 className={`${
                   isDark ? 'bg-darkSecondary' : 'bg-secondary'
                 } p-4 rounded-lg`}

@@ -13,6 +13,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {addPostData} from '../services/firestore';
 import auth from '@react-native-firebase/auth';
+import {useNotifications} from 'react-native-notificated';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 const PostSchema = Yup.object().shape({
@@ -21,6 +22,7 @@ const PostSchema = Yup.object().shape({
 });
 
 export default function CreatePost({isDark}) {
+  const {notify} = useNotifications();
   const [selectedImage, setSelectedImage] = useState(null);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const inputRef = useRef(null);
@@ -78,14 +80,29 @@ export default function CreatePost({isDark}) {
       };
 
       try {
-        await addPostData(postData);
+        const postAdded = await addPostData(postData);
+        if (postAdded) {
+          notify('success', {
+            params: {
+              title: 'Success:',
+              description: 'You just created a new post.',
+            },
+          });
+        }
         resetForm();
         setSelectedImage(null);
+        setIsTitleFocused(null);
       } catch (error) {
+        notify('error', {
+          params: {
+            title: 'Error:',
+            description: `${error}`,
+          },
+        });
         console.error('Error adding post:', error);
       }
     } else {
-      console.error('No user is authenticated');
+      console.error('User is not authenticated');
     }
   };
 
@@ -153,6 +170,7 @@ export default function CreatePost({isDark}) {
 
               {/* Create Post Button */}
               <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={handleSubmit}
                 className={`p-3 rounded-md ${
                   isDark ? 'bg-darkSecondary' : 'bg-secondary'

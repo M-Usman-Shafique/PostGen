@@ -1,4 +1,4 @@
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Keyboard} from 'react-native';
 import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -22,6 +22,7 @@ export default function Register({isDark}) {
   const {notify} = useNotifications();
 
   const handleRegister = async (values, {setSubmitting, resetForm}) => {
+    Keyboard.dismiss();
     const {email, password, username} = values;
     try {
       await registerUser(email, password, username);
@@ -168,6 +169,7 @@ export default function Register({isDark}) {
 
               {/* Register Button */}
               <TouchableOpacity
+                activeOpacity={0.7}
                 className={`${
                   isDark ? 'bg-darkSecondary' : 'bg-secondary'
                 } p-4 rounded-lg`}
