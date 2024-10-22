@@ -5,6 +5,7 @@ import Home from '../components/Home';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import Icony from 'react-native-vector-icons/Feather';
 import {Pressable} from 'react-native';
+import Profile from '../components/Profile';
 
 const Drawer = createDrawerNavigator();
 
@@ -51,6 +52,19 @@ export default function DrawerMenu() {
           drawerIcon: () => (
             <Icon
               name="home"
+              size={28}
+              color={isDark ? '#877EFF' : '#1F2937'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          drawerIcon: () => (
+            <Icony
+              name="user"
               size={28}
               color={isDark ? '#877EFF' : '#1F2937'}
             />

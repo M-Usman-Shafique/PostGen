@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {deletePost, getPosts} from '../services/firestore';
-import Avatar from '../images/emoji.jpg';
+import Avatar from '../images/avatar.jpg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icony from 'react-native-vector-icons/FontAwesome6';
 import Icono from 'react-native-vector-icons/Ionicons';
