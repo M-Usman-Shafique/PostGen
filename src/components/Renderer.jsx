@@ -38,7 +38,7 @@ export default function Renderer({navigation}) {
         className={`flex items-end justify-center ${
           isDark ? 'bg-darkPrimary' : 'bg-primary'
         }`}>
-        <Pressable onPress={handleDarkMode} className={`p-3`}>
+        <Pressable onPress={handleDarkMode} className={`px-6 py-4`}>
           {isDark ? moon : sun}
         </Pressable>
       </View>

@@ -4,6 +4,7 @@ import CustomDrawer from './CustomDrawer';
 import Home from '../components/Home';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import Icony from 'react-native-vector-icons/Feather';
+import Iconi from 'react-native-vector-icons/FontAwesome';
 import {Pressable} from 'react-native';
 import Profile from '../components/Profile';
 
@@ -11,6 +12,14 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerMenu() {
   const {isDark} = useDarkModeContext();
+
+  const user = (
+    <Iconi
+      name={isDark ? 'user-circle' : 'user-circle-o'}
+      size={31}
+      color={isDark ? '#877EFF' : '#1F2937'}
+    />
+  );
 
   return (
     <Drawer.Navigator
@@ -46,7 +55,7 @@ export default function DrawerMenu() {
         drawerActiveTintColor: isDark ? 'white' : 'black',
       })}>
       <Drawer.Screen
-        name="Create New Post"
+        name="Home"
         component={Home}
         options={{
           drawerIcon: () => (
@@ -62,13 +71,7 @@ export default function DrawerMenu() {
         name="Profile"
         component={Profile}
         options={{
-          drawerIcon: () => (
-            <Icony
-              name="user"
-              size={28}
-              color={isDark ? '#877EFF' : '#1F2937'}
-            />
-          ),
+          drawerIcon: () => user,
         }}
       />
     </Drawer.Navigator>

@@ -105,7 +105,7 @@ export default function CreatePost({isDark}) {
       validationSchema={PostSchema}
       onSubmit={handlePostSubmit}>
       {({handleChange, handleSubmit, setFieldValue, values}) => (
-        <View className={`mx-6 ${isTitleFocused ? 'my-4' : 'my-0'}`}>
+        <View className={`mx-6 mt-3 ${isTitleFocused ? 'mb-4' : 'mb-0'}`}>
           {/* Title Input */}
           <TextInput
             value={values.title}
@@ -113,7 +113,7 @@ export default function CreatePost({isDark}) {
             onBlur={() => setIsTitleFocused(false)}
             onChangeText={handleChange('title')}
             placeholder="What's on your mind?"
-            placeholderTextColor={isDark ? '#718096' : '#4B5563'}
+            placeholderTextColor={isDark ? '#6B7280' : '#6B7280'}
             className={`text-lg p-4 mb-2 border ${
               isDark
                 ? 'rounded-lg border-none bg-darkAccent text-gray-200'

@@ -7,11 +7,10 @@ import {
 import {Image, Text, View} from 'react-native';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
 import auth from '@react-native-firebase/auth';
-import Avatar from '../images/avatar.jpg';
+import Avatar from '../images/avatar.png';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icony from 'react-native-vector-icons/MaterialIcons';
 import Icono from 'react-native-vector-icons/Feather';
-import Iconi from 'react-native-vector-icons/FontAwesome';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {useNotifications} from 'react-native-notificated';
 
@@ -28,13 +27,6 @@ export default function CustomDrawer(props) {
   );
   const logout = (
     <Icony name="logout" size={33} color={isDark ? '#877EFF' : '#1F2937'} />
-  );
-  const profile = (
-    <Iconi
-      name="user-circle"
-      size={31}
-      color={isDark ? '#877EFF' : '#1F2937'}
-    />
   );
 
   useEffect(() => {
@@ -86,19 +78,7 @@ export default function CustomDrawer(props) {
       )}
 
       {/* Display "Create New Post" from DrawerMenu*/}
-      {/* <DrawerItemList {...props} /> */}
-
-      <DrawerItem
-        label="Profile"
-        onPress={() => props.navigation.navigate('Profile')}
-        icon={() => profile}
-        labelStyle={{
-          color: isDark ? '#877EFF' : '#1F2937',
-          fontSize: 23,
-          fontWeight: 'bold',
-          marginLeft: -18,
-        }}
-      />
+      <DrawerItemList {...props} />
 
       {/* Display Current Mode */}
       <View className="flex-row items-center p-4">

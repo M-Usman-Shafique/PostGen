@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {deletePost, getPosts} from '../services/firestore';
-import Avatar from '../images/avatar.jpg';
+import Avatar from '../images/avatar.png';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icony from 'react-native-vector-icons/FontAwesome6';
 import Icono from 'react-native-vector-icons/Ionicons';
@@ -92,19 +92,21 @@ export default function ShowPosts({isDark}) {
   const renderPostCard = ({item}) => {
     return (
       <View
-        className={`shadow-2xl rounded-lg p-4 mb-4 ${
-          isDark ? 'bg-darkAccent' : 'bg-[#c3c8d0]'
+        className={`shadow-2xl rounded-lg p-5 mb-4 ${
+          isDark
+            ? 'bg-darkAccent border-2 border-neutral-800'
+            : 'bg-[#c3c8d0] border border-neutral-400'
         }`}>
         {/* Post Card */}
         <View className="flex-row justify-between mb-2">
           <View className="flex-row">
             <Image
               source={item.userAvatar ? {uri: item.userAvatar} : Avatar}
-              className="w-12 h-12 rounded-full mr-4"
+              className="w-10 h-10 rounded-full mr-4"
             />
             <View>
               <Text
-                className={`text-lg font-semibold ${
+                className={`text-base font-bold ${
                   isDark ? 'text-gray-300' : 'text-secondary'
                 }`}>
                 {item.username || 'Anonymous'}
@@ -188,7 +190,7 @@ export default function ShowPosts({isDark}) {
   };
 
   return (
-    <View className="flex-1 mx-6 mt-6">
+    <View className="flex-1 mx-6">
       {loading ? (
         <ActivityIndicator
           size="large"

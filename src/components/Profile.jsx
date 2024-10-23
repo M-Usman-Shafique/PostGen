@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import Avatar from '../images/avatar.jpg';
+import Avatar from '../images/avatar.png';
 import Iconi from 'react-native-vector-icons/FontAwesome6';
 import Icony from 'react-native-vector-icons/MaterialIcons';
-import Icono from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNotifications} from 'react-native-notificated';
 import {addPostData} from '../services/firestore';
 import {useDarkModeContext} from '../hooks/useDarkModeContext';
@@ -34,13 +33,7 @@ export default function Profile() {
       color={isDark ? '#877EFF' : 'dimgray'}
     />
   );
-  const editImg = (
-    <Icono
-      name="image-edit-outline"
-      size={26}
-      color={isDark ? 'black' : '#494F55'}
-    />
-  );
+  const editImg = <Iconi name="pencil" size={22} color="#384A60" />;
 
   //   const fetchUserData = async (userId) => {
   //     // Implement this function to fetch the user's post count, follower count, and following count
@@ -78,16 +71,25 @@ export default function Profile() {
 
   return (
     <View
-      className={`flex-1 items-center p-6 ${
+      className={`flex-1 items-center p-6 pt-0 ${
         isDark ? 'bg-darkPrimary' : 'bg-primary'
       }`}>
+      <View
+        className={`h-32 w-full  shadow-lg ${
+          isDark ? 'bg-darkSecondary' : 'bg-secondary'
+        }`}
+      />
+
       {user ? (
         <>
-          <View className={`relative`}>
-            <Image source={Avatar} className={`w-36 h-36 rounded-full`} />
+          <View
+            className={`relative -mt-12 rounded-full p-1 ${
+              isDark && 'border-2 border-gray-200'
+            }`}>
+            <Image source={Avatar} className={`w-28 h-28 rounded-full`} />
             <TouchableOpacity
-              activeOpacity={0.4}
-              className={`absolute bottom-0 left-2 bg-gray-200 rounded-full p-1`}>
+              activeOpacity={0.6}
+              className={`absolute bottom-0 right-2 bg-gray-300 rounded-full p-2`}>
               {editImg}
             </TouchableOpacity>
           </View>
