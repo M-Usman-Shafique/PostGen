@@ -1,5 +1,6 @@
 // src/services/auth.js
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export const registerUser = async (email, password, username) => {
   try {
@@ -12,6 +13,14 @@ export const registerUser = async (email, password, username) => {
     // set the username as displayName
     await userCredential.user.updateProfile({
       displayName: username,
+      photoURL: '',
+    });
+
+    // Store user details in Firestore
+    await firestore().collection('users').doc(userCredential.user.uid).set({
+      displayName: username,
+      email: email,
+      photoURL: '',
     });
 
     // Send email verification

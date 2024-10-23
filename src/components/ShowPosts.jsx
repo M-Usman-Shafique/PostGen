@@ -1,3 +1,4 @@
+// src/components/ShowPosts
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -13,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icony from 'react-native-vector-icons/FontAwesome6';
 import Icono from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import EditPost from './EditPost';
 import {formatDate} from '../hooks/formatDate';
 import CustomModal from './CustomModal';
@@ -29,8 +31,21 @@ export default function ShowPosts({isDark}) {
   const user = auth().currentUser;
 
   useEffect(() => {
-    const unsubscribe = getPosts(retrievedPosts => {
-      setPosts(retrievedPosts);
+    const unsubscribe = getPosts(async retrievedPosts => {
+      const postsWithUsernames = await Promise.all(
+        retrievedPosts.map(async post => {
+          const userDoc = await firestore()
+            .collection('users')
+            .doc(post.userId)
+            .get();
+          return {
+            ...post,
+            username: userDoc.data()?.displayName || 'Anonymous',
+            photoURL: userDoc.data()?.photoURL,
+          };
+        }),
+      );
+      setPosts(postsWithUsernames);
       setLoading(false);
     });
 
@@ -91,17 +106,17 @@ export default function ShowPosts({isDark}) {
 
   const renderPostCard = ({item}) => {
     return (
+      // ------- Post Card ------ //
       <View
         className={`shadow-2xl rounded-lg p-5 mb-4 ${
           isDark
             ? 'bg-darkAccent border-2 border-neutral-800'
             : 'bg-[#c3c8d0] border border-neutral-400'
         }`}>
-        {/* Post Card */}
         <View className="flex-row justify-between mb-2">
           <View className="flex-row">
             <Image
-              source={item.userAvatar ? {uri: item.userAvatar} : Avatar}
+              source={item.photoURL ? {uri: item.photoURL} : Avatar}
               className="w-10 h-10 rounded-full mr-4"
             />
             <View>
@@ -109,7 +124,7 @@ export default function ShowPosts({isDark}) {
                 className={`text-base font-bold ${
                   isDark ? 'text-gray-300' : 'text-secondary'
                 }`}>
-                {item.username || 'Anonymous'}
+                {item?.username}
               </Text>
               <Text
                 className={`text-xs ${

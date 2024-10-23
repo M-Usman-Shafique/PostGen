@@ -1,3 +1,4 @@
+// src/components/CreatePost.jsx
 import React, {useRef, useState} from 'react';
 import {
   View,
@@ -67,7 +68,6 @@ export default function CreatePost({isDark}) {
     if (user) {
       const postData = {
         userId: user.uid,
-        username: user.displayName || 'Anonymous',
         title: trimmedTitle,
         image: values.image,
         createdAt: new Date(),
