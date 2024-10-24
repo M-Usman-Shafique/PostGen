@@ -12,6 +12,7 @@ export default function EditProfile({isDark, user, onSave, onCancel}) {
   const [avatar, setAvatar] = useState(
     user.photoURL ? {uri: user.photoURL} : Avatar,
   );
+  const [usernameError, setUsernameError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
   const editImg = <Iconi name="pen" size={20} color="#384A60" />;
@@ -45,6 +46,12 @@ export default function EditProfile({isDark, user, onSave, onCancel}) {
   };
 
   const handleSave = () => {
+    if (username.trim() === '') {
+      setUsernameError('Username is required');
+      return;
+    }
+    setUsernameError('');
+
     const avatarUri =
       typeof avatar === 'object' && avatar.uri ? avatar.uri : avatar;
     onSave({
@@ -82,8 +89,14 @@ export default function EditProfile({isDark, user, onSave, onCancel}) {
         }`}
         placeholder="Username"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={text => {
+          setUsername(text);
+          if (text.trim() !== '') setUsernameError('');
+        }}
       />
+      {usernameError ? (
+        <Text className="text-red-500 text-sm">{usernameError}</Text>
+      ) : null}
       <TextInput
         className={`w-[70%] px-4 py-3 text-base rounded-lg ${
           isDark
