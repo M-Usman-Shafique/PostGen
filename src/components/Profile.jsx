@@ -55,25 +55,25 @@ export default function Profile() {
         // Update the displayName and photoURL in Firebase Auth
         await currentUser.updateProfile({
           displayName: updatedProfile.username,
-          photoURL: updatedProfile.avatar,
+          photoURL:
+            updatedProfile.avatar === Avatar ? null : updatedProfile.avatar,
         });
-
-        if (currentUser.email !== updatedProfile.email) {
-          await currentUser.updateEmail(updatedProfile.email);
-        }
 
         // Update the user document in Firestore
-        await firestore().collection('users').doc(currentUser.uid).update({
-          displayName: updatedProfile.username,
-          email: updatedProfile.email,
-          photoURL: updatedProfile.avatar,
-        });
+        await firestore()
+          .collection('users')
+          .doc(currentUser.uid)
+          .update({
+            displayName: updatedProfile.username,
+            photoURL:
+              updatedProfile.avatar === Avatar ? null : updatedProfile.avatar,
+          });
 
         setUser({
           ...currentUser,
           displayName: updatedProfile.username,
-          email: updatedProfile.email,
-          photoURL: updatedProfile.avatar,
+          photoURL:
+            updatedProfile.avatar === Avatar ? '' : updatedProfile.avatar,
         });
 
         setIsEdit(false);

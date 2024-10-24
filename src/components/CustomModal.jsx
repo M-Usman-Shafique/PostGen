@@ -14,6 +14,7 @@ export default function CustomModal({
   cancelText = 'CANCEL',
   confirmText = 'CONFIRM',
   onConfirm,
+  onCancel,
 }) {
   const icon = <Icon name={iconName} size={iconSize} color={iconColor} />;
 
@@ -42,9 +43,7 @@ export default function CustomModal({
               <TouchableOpacity
                 activeOpacity={0.7}
                 className="flex-1 items-center bg-gray-300 rounded-lg px-2 py-2"
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}>
+                onPress={onCancel}>
                 <Text className="text-black text-lg font-semibold">
                   {cancelText}
                 </Text>
