@@ -37,7 +37,8 @@ export default function CustomDrawer(props) {
 
   const handleLogout = async () => {
     try {
-      await auth().signOut();
+      const status = await auth().signOut();
+      console.log(status);
       notify('success', {
         params: {
           title: 'Logout Successful',
@@ -60,7 +61,7 @@ export default function CustomDrawer(props) {
       {user && (
         <View className="flex items-center p-4">
           {/* Display profile info (avatar, username & email) */}
-          <View className="rounded-full border-2 border-gray-100">
+          <View>
             <Image
               source={user?.photoURL ? {uri: user.photoURL} : Avatar}
               className="w-20 h-20 rounded-full"

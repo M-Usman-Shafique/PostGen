@@ -214,10 +214,12 @@ export default function ShowPosts({isDark}) {
       </View>
       <View className="flex-1 mx-6">
         {loading ? (
-          <ActivityIndicator
-            size="large"
-            color={isDark ? '#877EFF' : '#1A202C'}
-          />
+          <View className="flex-1 justify-center">
+            <ActivityIndicator
+              size="large"
+              color={isDark ? '#877EFF' : '#1A202C'}
+            />
+          </View>
         ) : posts?.length > 0 ? (
           <FlatList
             data={posts}

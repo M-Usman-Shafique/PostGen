@@ -33,7 +33,7 @@ export default function People({isDark}) {
     const username = item.id === currentUser.uid ? 'You' : item.displayName;
     const borderColor =
       item.id === currentUser.uid
-        ? 'border-green-500 border-4'
+        ? 'border-green-500 border-[3px]'
         : isDark
         ? 'border-[#b7b1ff]'
         : 'border-slate-500';
@@ -59,10 +59,12 @@ export default function People({isDark}) {
   return (
     <View>
       {loading ? (
-        <ActivityIndicator
-          size="large"
-          color={isDark ? '#877EFF' : '#1A202C'}
-        />
+        <View className={`${loading && '-ml-14'}`}>
+          <ActivityIndicator
+            size="large"
+            color={isDark ? '#877EFF' : '#1A202C'}
+          />
+        </View>
       ) : (
         <FlatList
           horizontal

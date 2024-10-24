@@ -96,6 +96,7 @@ export default function EditProfile({isDark, user, onSave, onCancel}) {
       />
       <View className={`flex-row w-2/3 gap-2`}>
         <TouchableOpacity
+          activeOpacity={0.7}
           onPress={onCancel}
           className={`flex-1 items-center p-2 rounded-md ${
             isDark ? 'bg-gray-300 text-black' : ' bg-gray-200'
@@ -103,6 +104,7 @@ export default function EditProfile({isDark, user, onSave, onCancel}) {
           <Text className={`text-black`}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          activeOpacity={0.7}
           onPress={handleSave}
           className={`flex-1 items-center p-2 rounded-md ${
             isDark ? 'bg-darkSecondary' : 'bg-secondary'

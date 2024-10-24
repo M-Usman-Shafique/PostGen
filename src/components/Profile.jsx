@@ -22,14 +22,14 @@ export default function Profile() {
   }, []);
 
   const logout = (
-    <Icony name="logout" size={24} color={isDark ? '#877EFF' : 'dimgray'} />
+    <Icony name="logout" size={24} color={isDark ? '#877EFF' : '#4B5563'} />
   );
 
   const edit = (
     <Iconi
       name="pen-to-square"
       size={20}
-      color={isDark ? '#877EFF' : 'dimgray'}
+      color={isDark ? '#877EFF' : '#4B5563'}
     />
   );
 
@@ -103,7 +103,9 @@ export default function Profile() {
       ) : (
         <>
           <View
-            className={`relative -mt-12 rounded-full border-2 border-gray-100`}>
+            className={`relative -mt-14 rounded-full border-4 ${
+              isDark ? 'border-darkPrimary' : 'border-gray-300'
+            }`}>
             <Image
               source={user?.photoURL ? {uri: user.photoURL} : Avatar}
               className={`w-28 h-28 rounded-full`}
@@ -117,7 +119,7 @@ export default function Profile() {
           </Text>
           <Text
             className={`mb-5 text-lg ${
-              isDark ? 'text-gray-500' : 'text-gray-500'
+              isDark ? 'text-gray-500' : 'text-gray-600'
             }`}>
             {user?.email}
           </Text>
@@ -131,7 +133,7 @@ export default function Profile() {
               {logout}
               <Text
                 className={`ml-1 text-lg font-semibold ${
-                  isDark ? 'text-gray-300' : ''
+                  isDark ? 'text-gray-300' : 'text-gray-600'
                 }`}>
                 Logout
               </Text>
@@ -145,7 +147,7 @@ export default function Profile() {
               {edit}
               <Text
                 className={`ml-1 text-lg font-semibold ${
-                  isDark ? 'text-gray-300' : ''
+                  isDark ? 'text-gray-300' : 'text-gray-600'
                 }`}>
                 Edit Profile
               </Text>
