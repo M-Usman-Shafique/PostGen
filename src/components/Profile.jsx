@@ -103,9 +103,7 @@ export default function Profile() {
       ) : (
         <>
           <View
-            className={`relative -mt-12 rounded-full p-1 ${
-              isDark && 'border-2 border-gray-200'
-            }`}>
+            className={`relative -mt-12 rounded-full border-2 border-gray-100`}>
             <Image
               source={user?.photoURL ? {uri: user.photoURL} : Avatar}
               className={`w-28 h-28 rounded-full`}

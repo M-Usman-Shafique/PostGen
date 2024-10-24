@@ -60,10 +60,12 @@ export default function CustomDrawer(props) {
       {user && (
         <View className="flex items-center p-4">
           {/* Display profile info (avatar, username & email) */}
-          <Image
-            source={user?.photoURL ? {uri: user.photoURL} : Avatar}
-            className="w-20 h-20 rounded-full"
-          />
+          <View className="rounded-full border-2 border-gray-100">
+            <Image
+              source={user?.photoURL ? {uri: user.photoURL} : Avatar}
+              className="w-20 h-20 rounded-full"
+            />
+          </View>
           <Text
             className={`text-2xl font-bold mt-3 ${
               isDark ? 'text-darkSecondary' : 'text-secondary'
