@@ -24,7 +24,7 @@ export const getPosts = setPosts => {
         setPosts(posts);
       });
   } catch (error) {
-    console.error('Error fetching real-time data: ', error);
+    console.error('Error fetching real-time posts data: ', error);
   }
 };
 
@@ -45,5 +45,21 @@ export const deletePost = async id => {
   } catch (error) {
     console.error('Error deleting post data:', error);
     throw error;
+  }
+};
+
+export const getUsers = setUsers => {
+  try {
+    return firestore()
+      .collection('users')
+      .onSnapshot(snapshot => {
+        const users = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(users);
+      });
+  } catch (error) {
+    console.error('Error fetching real-time users data: ', error);
   }
 };

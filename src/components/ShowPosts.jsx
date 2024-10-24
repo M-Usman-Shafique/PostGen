@@ -19,6 +19,7 @@ import EditPost from './EditPost';
 import {formatDate} from '../hooks/formatDate';
 import CustomModal from './CustomModal';
 import {useNotifications} from 'react-native-notificated';
+import People from './People';
 
 export default function ShowPosts({isDark}) {
   const {notify} = useNotifications();
@@ -108,7 +109,7 @@ export default function ShowPosts({isDark}) {
     return (
       // ------- Post Card ------ //
       <View
-        className={`shadow-2xl rounded-lg p-5 mb-4 ${
+        className={`shadow-2xl rounded-lg p-5 ${
           isDark
             ? 'bg-darkAccent border-2 border-neutral-800'
             : 'bg-[#c3c8d0] border border-neutral-400'
@@ -204,38 +205,46 @@ export default function ShowPosts({isDark}) {
     );
   };
 
+  const ItemSeparator = () => <View className="h-3" />;
+
   return (
-    <View className="flex-1 mx-6">
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color={isDark ? '#877EFF' : '#1A202C'}
+    <>
+      <View className="w-full mb-4 mx-6 mt-2">
+        <People isDark={isDark} />
+      </View>
+      <View className="flex-1 mx-6">
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={isDark ? '#877EFF' : '#1A202C'}
+          />
+        ) : posts?.length > 0 ? (
+          <FlatList
+            data={posts}
+            renderItem={renderPostCard}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={ItemSeparator}
+          />
+        ) : (
+          <Text
+            className={`text-center ${
+              isDark ? 'text-gray-500' : 'text-secondary'
+            }`}>
+            No posts available.
+          </Text>
+        )}
+        <CustomModal
+          isDark={isDark}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          iconName="trash-outline"
+          title="Delete Post"
+          description="Are you sure you want to delete this post?"
+          cancelText="CANCEL"
+          confirmText="DELETE"
+          onConfirm={confirmDelete}
         />
-      ) : posts?.length > 0 ? (
-        <FlatList
-          data={posts}
-          renderItem={renderPostCard}
-          keyExtractor={item => item.id}
-        />
-      ) : (
-        <Text
-          className={`text-center ${
-            isDark ? 'text-gray-500' : 'text-secondary'
-          }`}>
-          No posts available.
-        </Text>
-      )}
-      <CustomModal
-        isDark={isDark}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        iconName="trash-outline"
-        title="Delete Post"
-        description="Are you sure you want to delete this post?"
-        cancelText="CANCEL"
-        confirmText="DELETE"
-        onConfirm={confirmDelete}
-      />
-    </View>
+      </View>
+    </>
   );
 }

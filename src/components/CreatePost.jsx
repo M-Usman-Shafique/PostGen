@@ -1,5 +1,5 @@
 // src/components/CreatePost.jsx
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -15,6 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {addPostData} from '../services/firestore';
 import auth from '@react-native-firebase/auth';
 import {useNotifications} from 'react-native-notificated';
+import Avatar from '../images/avatar.png';
 
 const PostSchema = Yup.object().shape({
   title: Yup.string(),
@@ -106,21 +108,27 @@ export default function CreatePost({isDark}) {
       onSubmit={handlePostSubmit}>
       {({handleChange, handleSubmit, setFieldValue, values}) => (
         <View className={`mx-6 mt-3 ${isTitleFocused ? 'mb-4' : 'mb-0'}`}>
-          {/* Title Input */}
-          <TextInput
-            value={values.title}
-            onFocus={() => setIsTitleFocused(true)}
-            onBlur={() => setIsTitleFocused(false)}
-            onChangeText={handleChange('title')}
-            placeholder="What's on your mind?"
-            placeholderTextColor={isDark ? '#6B7280' : '#6B7280'}
-            className={`text-lg p-4 mb-2 border ${
-              isDark
-                ? 'rounded-lg border-none bg-darkAccent text-gray-200'
-                : 'rounded-md border-secondary text-gray-950'
-            }`}
-            ref={inputRef}
-          />
+          <View className="flex-row gap-2 items-center mb-2">
+            <Image
+              source={user?.photoURL ? {uri: user.photoURL} : Avatar}
+              className="w-14 h-14 rounded-full"
+            />
+            {/* Title Input */}
+            <TextInput
+              value={values.title}
+              onFocus={() => setIsTitleFocused(true)}
+              onBlur={() => setIsTitleFocused(false)}
+              onChangeText={handleChange('title')}
+              placeholder="What's on your mind?"
+              placeholderTextColor={isDark ? '#6B7280' : '#6B7280'}
+              className={`flex-1 text-lg pl-3 pb-5 pt-2 border ${
+                isDark
+                  ? 'rounded-lg border-none bg-darkAccent text-gray-200'
+                  : 'rounded-lg border-gray-400 text-gray-950'
+              }`}
+              ref={inputRef}
+            />
+          </View>
 
           {isTitleFocused && (
             <>
@@ -161,17 +169,30 @@ export default function CreatePost({isDark}) {
                 />
               )}
 
-              {/* Create Post Button */}
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={handleSubmit}
-                className={`p-3 rounded-md ${
-                  isDark ? 'bg-darkSecondary' : 'bg-secondary'
-                }`}>
-                <Text className="text-white text-center text-base">
-                  Create Post
-                </Text>
-              </TouchableOpacity>
+              <View className="flex-row gap-2">
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => setIsTitleFocused(false)}
+                  className={`flex-1 p-2 rounded-md ${
+                    isDark ? 'bg-gray-400' : 'bg-gray-400'
+                  }`}>
+                  <Text className="text-black text-center text-base">
+                    Discard
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Create Post Button */}
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={handleSubmit}
+                  className={`flex-1 p-2 rounded-md ${
+                    isDark ? 'bg-darkSecondary' : 'bg-secondary'
+                  }`}>
+                  <Text className="text-white text-center text-base">
+                    Create Post
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </>
           )}
         </View>

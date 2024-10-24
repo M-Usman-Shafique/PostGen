@@ -90,7 +90,6 @@ export default function EditProfile({isDark, user, onSave, onCancel}) {
             ? 'border-none focus:border-none bg-darkAccent text-white/30'
             : 'border border-gray-400 focus:border-gray-400 text-darkPrimary/40'
         }`}
-        placeholder="Email Address"
         value={email}
         editable={false}
         selectTextOnFocus={false}

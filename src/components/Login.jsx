@@ -1,3 +1,4 @@
+// src/components/Login.jsx
 import {View, Text, TextInput, TouchableOpacity, Keyboard} from 'react-native';
 import React from 'react';
 import {Formik} from 'formik';
@@ -29,7 +30,7 @@ export default function Login({isDark, navigation}) {
         });
         resetForm();
         setSubmitting(false);
-        navigation.navigate('DrawerMenu', {screen: 'Home'});
+        // navigation.navigate('DrawerMenu', {screen: 'Home'});
       } else {
         notify('error', {
           params: {
