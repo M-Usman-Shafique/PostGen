@@ -38,7 +38,9 @@ export default function CustomModal({
               {icon}
               <Text className="text-white text-2xl font-bold">{title}</Text>
             </View>
-            <Text className="text-slate-200 text-base">{description}</Text>
+            {description && (
+              <Text className="text-slate-200 text-base">{description}</Text>
+            )}
             <View className="flex-row gap-2">
               <TouchableOpacity
                 activeOpacity={0.7}

@@ -121,7 +121,7 @@ export default function CreatePost({isDark}) {
               onChangeText={handleChange('title')}
               placeholder="What's on your mind?"
               placeholderTextColor={isDark ? '#6B7280' : '#6B7280'}
-              className={`flex-1 text-lg pl-3 pb-5 pt-2 border ${
+              className={`flex-1 text-lg pl-4 pb-5 pt-2 border ${
                 isDark
                   ? 'rounded-lg border-none bg-darkAccent text-gray-200'
                   : 'rounded-lg border-gray-400 text-gray-950'
@@ -174,9 +174,12 @@ export default function CreatePost({isDark}) {
                   activeOpacity={0.7}
                   onPress={() => setIsTitleFocused(false)}
                   className={`flex-1 p-2 rounded-md ${
-                    isDark ? 'bg-gray-400' : 'bg-gray-400'
+                    isDark ? 'bg-gray-300' : 'bg-gray-500'
                   }`}>
-                  <Text className="text-black text-center text-base">
+                  <Text
+                    className={`text-center text-base ${
+                      isDark ? 'text-black' : 'text-white'
+                    }`}>
                     Discard
                   </Text>
                 </TouchableOpacity>
