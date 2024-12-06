@@ -7,6 +7,7 @@ import {ActivityIndicator, StatusBar, View} from 'react-native';
 import DrawerMenu from './src/screens/DrawerMenu';
 import {useDarkModeContext} from './src/hooks/useDarkModeContext';
 import Renderer from './src/components/Renderer';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,10 @@ export default function App() {
   const {isDark} = useDarkModeContext();
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(handleAuthStateChanged);

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useDarkMode = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   const saveDarkMode = async value => {
     try {
